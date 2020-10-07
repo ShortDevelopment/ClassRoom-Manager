@@ -104,15 +104,29 @@ Public Class ControlPanel
         UserNameLabel.Text = UserName
         UserProfilePictureBox.Image = UserProfile.CurrentUser.Avatar
 
-        Dim profile = NetworkInformation.GetInternetConnectionProfile()
-        _HotSpotManager = NetworkOperatorTetheringManager.CreateFromConnectionProfile(profile)
-        OldTeatheringConfiguration = HotSpotManager.GetCurrentAccessPointConfiguration()
-        Dim NewConfig As New NetworkOperatorTetheringAccessPointConfiguration()
-        NewConfig.Ssid = $"ClassRoom of {Environment.UserName}"
-        NewConfig.Passphrase = RandomStringMaker.GetRandomString(8).ToUpper()
-        NewConfig.Band = TetheringWiFiBand.Auto
-        HotSpotManager.ConfigureAccessPointAsync(NewConfig)
-        HotSpotManager.StartTetheringAsync()
+        If Environment.OSVersion.Version.Major < 10 Then
+            MsgBox("Dieses Programm funktioniert nur unter Windows 10 vollständig!", MsgBoxStyle.Exclamation)
+        End If
+
+        Try
+            Dim profile As ConnectionProfile
+            Try
+                profile = NetworkInformation.GetInternetConnectionProfile()
+                If profile Is Nothing Then Throw New Exception
+            Catch
+                profile = NetworkInformation.GetConnectionProfiles()(0)
+            End Try
+            _HotSpotManager = NetworkOperatorTetheringManager.CreateFromConnectionProfile(profile)
+            OldTeatheringConfiguration = HotSpotManager.GetCurrentAccessPointConfiguration()
+            Dim NewConfig As New NetworkOperatorTetheringAccessPointConfiguration()
+            NewConfig.Ssid = $"ClassRoom of {Environment.UserName}"
+            NewConfig.Passphrase = RandomStringMaker.GetRandomString(8).ToUpper()
+            NewConfig.Band = TetheringWiFiBand.Auto
+            HotSpotManager.ConfigureAccessPointAsync(NewConfig)
+            HotSpotManager.StartTetheringAsync()
+        Catch ex As Exception
+            MsgBox("HotSpot:" + vbNewLine + ex.Message, MsgBoxStyle.Exclamation)
+        End Try
 
         Running = True
         Server.Start()
@@ -129,6 +143,10 @@ Public Class ControlPanel
             HotSpotManager.ConfigureAccessPointAsync(OldTeatheringConfiguration)
             HotSpotManager.StopTetheringAsync()
         Catch : End Try
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Process.Start("ms-settings:network-mobilehotspot")
     End Sub
 End Class
 

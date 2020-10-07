@@ -41,6 +41,8 @@ Partial Class ControlPanel
         Me.Panel9 = New System.Windows.Forms.Panel()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
+        Me.Panel10 = New System.Windows.Forms.Panel()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -49,6 +51,7 @@ Partial Class ControlPanel
         Me.Panel3.SuspendLayout()
         Me.MainPanel.SuspendLayout()
         Me.Panel9.SuspendLayout()
+        Me.Panel10.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -207,11 +210,12 @@ Partial Class ControlPanel
         '
         'Panel9
         '
+        Me.Panel9.Controls.Add(Me.Panel10)
         Me.Panel9.Controls.Add(Me.TextBox1)
         Me.Panel9.Controls.Add(Me.Label2)
-        Me.Panel9.Location = New System.Drawing.Point(72, 106)
+        Me.Panel9.Location = New System.Drawing.Point(50, 50)
         Me.Panel9.Name = "Panel9"
-        Me.Panel9.Size = New System.Drawing.Size(435, 142)
+        Me.Panel9.Size = New System.Drawing.Size(435, 271)
         Me.Panel9.TabIndex = 0
         '
         'TextBox1
@@ -236,6 +240,23 @@ Partial Class ControlPanel
         Me.Label2.TabIndex = 0
         Me.Label2.Text = "Server läuft!"
         '
+        'Panel10
+        '
+        Me.Panel10.Controls.Add(Me.Button1)
+        Me.Panel10.Location = New System.Drawing.Point(18, 144)
+        Me.Panel10.Name = "Panel10"
+        Me.Panel10.Size = New System.Drawing.Size(399, 100)
+        Me.Panel10.TabIndex = 2
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(296, 74)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(100, 23)
+        Me.Button1.TabIndex = 0
+        Me.Button1.Text = "Einstellungen"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'ControlPanel
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -256,6 +277,7 @@ Partial Class ControlPanel
         Me.MainPanel.ResumeLayout(False)
         Me.Panel9.ResumeLayout(False)
         Me.Panel9.PerformLayout()
+        Me.Panel10.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -277,4 +299,6 @@ Partial Class ControlPanel
     Friend WithEvents Panel9 As Panel
     Friend WithEvents Label2 As Label
     Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents Panel10 As Panel
+    Friend WithEvents Button1 As Button
 End Class
