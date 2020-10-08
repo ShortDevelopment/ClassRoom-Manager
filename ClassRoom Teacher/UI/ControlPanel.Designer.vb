@@ -39,10 +39,13 @@ Partial Class ControlPanel
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.MainPanel = New System.Windows.Forms.Panel()
         Me.Panel9 = New System.Windows.Forms.Panel()
+        Me.WiFiDisplayPanel = New System.Windows.Forms.Panel()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.Panel10 = New System.Windows.Forms.Panel()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.PictureBox2 = New System.Windows.Forms.PictureBox()
+        Me.SSIDTextBox = New System.Windows.Forms.TextBox()
+        Me.WiFiPasswordTextBox = New System.Windows.Forms.TextBox()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -51,7 +54,8 @@ Partial Class ControlPanel
         Me.Panel3.SuspendLayout()
         Me.MainPanel.SuspendLayout()
         Me.Panel9.SuspendLayout()
-        Me.Panel10.SuspendLayout()
+        Me.WiFiDisplayPanel.SuspendLayout()
+        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Panel1
@@ -210,22 +214,46 @@ Partial Class ControlPanel
         '
         'Panel9
         '
-        Me.Panel9.Controls.Add(Me.Panel10)
+        Me.Panel9.Controls.Add(Me.WiFiDisplayPanel)
         Me.Panel9.Controls.Add(Me.TextBox1)
         Me.Panel9.Controls.Add(Me.Label2)
         Me.Panel9.Location = New System.Drawing.Point(50, 50)
         Me.Panel9.Name = "Panel9"
-        Me.Panel9.Size = New System.Drawing.Size(435, 271)
+        Me.Panel9.Size = New System.Drawing.Size(499, 271)
         Me.Panel9.TabIndex = 0
+        '
+        'WiFiDisplayPanel
+        '
+        Me.WiFiDisplayPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.WiFiDisplayPanel.Controls.Add(Me.WiFiPasswordTextBox)
+        Me.WiFiDisplayPanel.Controls.Add(Me.SSIDTextBox)
+        Me.WiFiDisplayPanel.Controls.Add(Me.PictureBox2)
+        Me.WiFiDisplayPanel.Controls.Add(Me.Button1)
+        Me.WiFiDisplayPanel.Location = New System.Drawing.Point(19, 136)
+        Me.WiFiDisplayPanel.Name = "WiFiDisplayPanel"
+        Me.WiFiDisplayPanel.Size = New System.Drawing.Size(461, 124)
+        Me.WiFiDisplayPanel.TabIndex = 2
+        '
+        'Button1
+        '
+        Me.Button1.BackgroundImage = CType(resources.GetObject("Button1.BackgroundImage"), System.Drawing.Image)
+        Me.Button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.Button1.FlatAppearance.BorderSize = 0
+        Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button1.Location = New System.Drawing.Point(425, 96)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(31, 23)
+        Me.Button1.TabIndex = 0
+        Me.Button1.UseVisualStyleBackColor = True
         '
         'TextBox1
         '
         Me.TextBox1.BackColor = System.Drawing.SystemColors.Control
         Me.TextBox1.Font = New System.Drawing.Font("Segoe UI", 27.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox1.Location = New System.Drawing.Point(18, 81)
+        Me.TextBox1.Location = New System.Drawing.Point(19, 73)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.ReadOnly = True
-        Me.TextBox1.Size = New System.Drawing.Size(399, 57)
+        Me.TextBox1.Size = New System.Drawing.Size(461, 57)
         Me.TextBox1.TabIndex = 1
         Me.TextBox1.Text = "http://...:1234"
         '
@@ -234,28 +262,43 @@ Partial Class ControlPanel
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Segoe UI", 21.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(39, Byte), Integer), CType(CType(174, Byte), Integer), CType(CType(96, Byte), Integer))
-        Me.Label2.Location = New System.Drawing.Point(123, 19)
+        Me.Label2.Location = New System.Drawing.Point(123, 11)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(188, 40)
         Me.Label2.TabIndex = 0
         Me.Label2.Text = "Server läuft!"
         '
-        'Panel10
+        'PictureBox2
         '
-        Me.Panel10.Controls.Add(Me.Button1)
-        Me.Panel10.Location = New System.Drawing.Point(18, 144)
-        Me.Panel10.Name = "Panel10"
-        Me.Panel10.Size = New System.Drawing.Size(399, 100)
-        Me.Panel10.TabIndex = 2
+        Me.PictureBox2.Image = CType(resources.GetObject("PictureBox2.Image"), System.Drawing.Image)
+        Me.PictureBox2.Location = New System.Drawing.Point(3, 3)
+        Me.PictureBox2.Name = "PictureBox2"
+        Me.PictureBox2.Size = New System.Drawing.Size(41, 116)
+        Me.PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox2.TabIndex = 1
+        Me.PictureBox2.TabStop = False
         '
-        'Button1
+        'SSIDTextBox
         '
-        Me.Button1.Location = New System.Drawing.Point(296, 74)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(100, 23)
-        Me.Button1.TabIndex = 0
-        Me.Button1.Text = "Einstellungen"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.SSIDTextBox.BackColor = System.Drawing.SystemColors.Control
+        Me.SSIDTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.SSIDTextBox.Font = New System.Drawing.Font("Segoe UI", 27.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SSIDTextBox.Location = New System.Drawing.Point(64, 7)
+        Me.SSIDTextBox.Name = "SSIDTextBox"
+        Me.SSIDTextBox.ReadOnly = True
+        Me.SSIDTextBox.Size = New System.Drawing.Size(359, 50)
+        Me.SSIDTextBox.TabIndex = 2
+        '
+        'WiFiPasswordTextBox
+        '
+        Me.WiFiPasswordTextBox.BackColor = System.Drawing.SystemColors.Control
+        Me.WiFiPasswordTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.WiFiPasswordTextBox.Font = New System.Drawing.Font("Segoe UI", 27.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.WiFiPasswordTextBox.Location = New System.Drawing.Point(64, 66)
+        Me.WiFiPasswordTextBox.Name = "WiFiPasswordTextBox"
+        Me.WiFiPasswordTextBox.ReadOnly = True
+        Me.WiFiPasswordTextBox.Size = New System.Drawing.Size(359, 50)
+        Me.WiFiPasswordTextBox.TabIndex = 3
         '
         'ControlPanel
         '
@@ -277,7 +320,9 @@ Partial Class ControlPanel
         Me.MainPanel.ResumeLayout(False)
         Me.Panel9.ResumeLayout(False)
         Me.Panel9.PerformLayout()
-        Me.Panel10.ResumeLayout(False)
+        Me.WiFiDisplayPanel.ResumeLayout(False)
+        Me.WiFiDisplayPanel.PerformLayout()
+        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -299,6 +344,9 @@ Partial Class ControlPanel
     Friend WithEvents Panel9 As Panel
     Friend WithEvents Label2 As Label
     Friend WithEvents TextBox1 As TextBox
-    Friend WithEvents Panel10 As Panel
+    Friend WithEvents WiFiDisplayPanel As Panel
     Friend WithEvents Button1 As Button
+    Friend WithEvents PictureBox2 As PictureBox
+    Friend WithEvents WiFiPasswordTextBox As TextBox
+    Friend WithEvents SSIDTextBox As TextBox
 End Class

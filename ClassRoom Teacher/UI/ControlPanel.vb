@@ -124,7 +124,10 @@ Public Class ControlPanel
             NewConfig.Band = TetheringWiFiBand.Auto
             HotSpotManager.ConfigureAccessPointAsync(NewConfig)
             HotSpotManager.StartTetheringAsync()
+            SSIDTextBox.Text = NewConfig.Ssid
+            WiFiPasswordTextBox.Text = NewConfig.Passphrase
         Catch ex As Exception
+            WiFiDisplayPanel.Hide()
             MsgBox("HotSpot:" + vbNewLine + ex.Message, MsgBoxStyle.Exclamation)
         End Try
 
