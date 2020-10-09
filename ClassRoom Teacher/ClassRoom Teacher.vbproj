@@ -160,7 +160,7 @@
     <None Include="Resources\baseline_fullscreen_black_18dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="HTTP\Content\upload.html" />
+    <EmbeddedResource Include="HTTP\Content\upload.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HTTP\Server\" />
