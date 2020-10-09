@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Net.NetworkInformation
 Imports System.Net.Sockets
 Imports System.Threading
 Imports Windows.Networking.Connectivity
@@ -108,6 +109,8 @@ Public Class ControlPanel
             MsgBox("Dieses Programm funktioniert nur unter Windows 10 vollständig!", MsgBoxStyle.Exclamation)
         End If
 
+        Dim HotSpotEnabled As Boolean = False
+
         Try
             Dim profile As ConnectionProfile
             Try
@@ -126,10 +129,25 @@ Public Class ControlPanel
             HotSpotManager.StartTetheringAsync()
             SSIDTextBox.Text = NewConfig.Ssid
             WiFiPasswordTextBox.Text = NewConfig.Passphrase
+            HotSpotEnabled = True
         Catch ex As Exception
             WiFiDisplayPanel.Hide()
             MsgBox("HotSpot:" + vbNewLine + ex.Message, MsgBoxStyle.Exclamation)
         End Try
+
+        If HotSpotEnabled Then
+            For Each nic As NetworkInterface In NetworkInterface.GetAllNetworkInterfaces()
+                If nic.NetworkInterfaceType = NetworkInterfaceType.Wireless80211 AndAlso nic.GetIPProperties().GatewayAddresses.Count = 0 Then ' AndAlso nic.OperationalStatus = OperationalStatus.Up 
+                    Dim a = nic.GetIPProperties()
+                    Dim IPAddress = nic.GetIPProperties().UnicastAddresses.Where(Function(x) x.Address.AddressFamily = AddressFamily.InterNetwork)(0).Address
+                    If IPAddress.ToString().EndsWith(".1") Then
+                        Debug.Print("IPAddress: " + IPAddress.ToString())
+                        IPAddressTextBox.Text = $"http://{IPAddress}:1234/"
+                        IPAddressTextBox.Show()
+                    End If
+                End If
+            Next
+        End If
 
         Running = True
         Server.Start()

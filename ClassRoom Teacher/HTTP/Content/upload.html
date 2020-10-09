@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>ClassRoom Datei Upload</title>
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        header {
+            background-color: rgb(209, 72, 39);
+            width: 100%;
+            height: 50px;
+            box-sizing: border-box;
+            padding: 5px 10px;
+            display: flex;
+            align-items: center;
+        }
+
+            header label {
+                color: rgb(236, 240, 241);
+                font-weight: 600;
+                font-size: 15pt;
+            }
+
+        .spacer {
+            width: 100%;
+            height: 10px;
+        }
+
+        .spacer-big {
+            height: 50px !important;
+        }
+
+        h1 {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .block-center {
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .upload-area {
+            width: calc(100% - 20px);
+            max-width: 800px;
+            height: 250px;
+            margin: 5px auto;
+            box-sizing: border-box;
+            outline-offset: -15px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 20px;
+            color: rgb(236, 240, 241);
+        }
+
+            .upload-area:not([disabled]) {
+                background: rgb(229, 92, 59);
+                cursor: pointer !important;
+                outline: 3px dashed rgb(189, 195, 199);
+            }
+
+                .upload-area:not([disabled]) > div > div:nth-child(2) {
+                    display: none;
+                }
+
+            .upload-area[disabled] {
+                outline: 3px dashed rgb(236, 240, 241);
+                background: rgb(249, 112, 79);
+            }
+
+                .upload-area[disabled] > div > div:nth-child(1) {
+                    display: none;
+                }
+
+            .upload-area label {
+                display: block;
+            }
+    </style>
+    <script>
+        let UploadAreaEnabled = true;
+        /**
+         * @type {File}
+         * */
+        let CurrentFile = null;
+        function UploadArea_Click() {
+            if (!UploadAreaEnabled) {
+                return;
+            }
+            document.getElementById("file_upload").click();
+        }
+        /**
+         *
+         * @param file {File}
+         */
+        function PrepareUpload(file) {
+            document.getElementById("UploadControlButtonContainer").style.display = "block";
+            document.getElementById("UploadOverviewContainer").style.display = "none";
+            CurrentFile = file;
+            /**
+             * @type {HTMLDivElement}
+             * */
+            let UploadArea = document.getElementsByClassName("upload-area")[0];
+            UploadArea.setAttribute("disabled", "disabled");
+            document.getElementById("FileNameLabel").innerHTML = file.name;
+            UploadAreaEnabled = false;
+        }
+        /**
+         *
+         * @param event {Event}
+         */
+        function CancelPreUpload(event) {
+            event.stopPropagation();
+            UploadFinished(false);
+        }
+        /**
+         * @type { XMLHttpRequest }
+         * */
+        let CurrentRequest = null;
+        function Upload() {
+            document.getElementById("UploadControlButtonContainer").style.display = "none";
+            document.getElementById("UploadOverviewContainer").style.display = "block";
+            CurrentRequest = new XMLHttpRequest();
+            CurrentRequest.open("POST", "upload.php");
+            CurrentRequest.onload = function () {
+                UploadFinished(true);
+                alert(this.responseText);
+            };
+            /**
+             * @param event { ProgressEvent }
+             */
+            CurrentRequest.onerror = function (event) {
+                UploadFinished(false);
+                alert("Fehler beim Hochladen!");
+            };
+            /**
+             *
+             * @param event {ProgressEvent}
+             */
+            CurrentRequest.onprogress = function (event) {
+                console.log(((event.loaded / event.total) * 100) + "%");
+                /**
+                 * @type {HTMLProgressElement}
+                 * */
+                let ele = document.getElementById("progress_bar");
+                ele.value = (event.loaded / event.total) * 100;
+            };
+            document.getElementById("progress_bar").value = 0;
+            let data = new FormData();
+            data.append("file", CurrentFile);
+            CurrentRequest.send(data);
+        }
+        function CancelUpload(event) {
+            event.stopPropagation();
+            try {
+                CurrentRequest.abort();
+            } catch (ex) { }
+            UploadFinished(false);
+        }
+        function UploadFinished(success) {
+            CurrentFile = null;
+            let UploadArea = document.getElementsByClassName("upload-area")[0];
+            UploadArea.removeAttribute("disabled");
+            UploadAreaEnabled = true;
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <label>ClassRoom</label>
+    </header>
+    <div class="spacer spacer-big"></div>
+    <h1 class="block-center">Datei Upload</h1>
+    <div class="spacer spacer-big"></div>
+    <input type="file" id="file_upload" style="display:none;" onchange="PrepareUpload(this.files[0]);" />
+    <div class="upload-area" onclick="UploadArea_Click();">
+        <div>
+            <div>
+                <label>Klicken</label>
+                <label>Drag &amp; Drop</label>
+            </div>
+            <div>
+                <label id="FileNameLabel">File1</label>
+                <div id="UploadControlButtonContainer">
+                    <button onclick="Upload();">Hochladen</button>
+                    <button class="cancel-button" onclick="CancelPreUpload(event);">Abbrechen</button>
+                </div>
+                <div id="UploadOverviewContainer" style="display:none;">
+                    <progress id="progress_bar" max="100" min="0" value="0"></progress>
+                    <button class="cancel-button" onclick="CancelUpload(event);">Abbrechen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
