@@ -21,6 +21,15 @@
             align-items: center;
         }
 
+            header > a {
+                text-decoration: none;
+                cursor:pointer;
+            }
+
+                header > a:hover {
+                    text-decoration: underline;
+                }
+
             header label {
                 color: rgb(236, 240, 241);
                 font-weight: 600;
@@ -176,7 +185,7 @@
 </head>
 <body>
     <header>
-        <label>ClassRoom</label>
+        <a href="/index.html"><label>ClassRoom</label></a>
     </header>
     <div class="spacer spacer-big"></div>
     <h1 class="block-center">Datei Upload</h1>

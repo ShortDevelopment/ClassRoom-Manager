@@ -3,6 +3,7 @@ Imports System.Net
 Imports System.Net.NetworkInformation
 Imports System.Net.Sockets
 Imports System.Reflection
+Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Windows.Networking.Connectivity
 Imports Windows.Networking.NetworkOperators
@@ -46,7 +47,22 @@ Public Class ControlPanel
             NewConfig.Ssid = $"ClassRoom of {Environment.UserName}"
             NewConfig.Passphrase = RandomStringMaker.GetRandomString(8).ToUpper()
             NewConfig.Band = TetheringWiFiBand.Auto
-            HotSpotManager.ConfigureAccessPointAsync(NewConfig)
+            HotSpotManager.ConfigureAccessPointAsync(NewConfig).Completed = Sub()
+                                                                                Thread.Sleep(100)
+                                                                                Me.Invoke(Sub()
+                                                                                              For Each nic As NetworkInterface In NetworkInterface.GetAllNetworkInterfaces()
+                                                                                                  If nic.NetworkInterfaceType = NetworkInterfaceType.Wireless80211 AndAlso nic.GetIPProperties().GatewayAddresses.Count = 0 Then ' AndAlso nic.OperationalStatus = OperationalStatus.Up 
+                                                                                                      _HotSpotIPAddress = nic.GetIPProperties().UnicastAddresses.Where(Function(x) x.Address.AddressFamily = AddressFamily.InterNetwork).ToList()(0).Address
+                                                                                                      If HotSpotIPAddress.ToString().EndsWith(".1") Then
+                                                                                                          Debug.Print("IPAddress: " + HotSpotIPAddress.ToString())
+                                                                                                          IPAddressTextBox.Text = $"http://{HotSpotIPAddress}:8080/"
+                                                                                                          SetupHTTPServer()
+                                                                                                          Exit For
+                                                                                                      End If
+                                                                                                  End If
+                                                                                              Next
+                                                                                          End Sub)
+                                                                            End Sub
             If Not HotSpotManager.TetheringOperationalState = TetheringOperationalState.On Then HotSpotManager.StartTetheringAsync()
             SSIDTextBox.Text = NewConfig.Ssid
             WiFiPasswordTextBox.Text = NewConfig.Passphrase
@@ -57,17 +73,7 @@ Public Class ControlPanel
         End Try
 
         If HotSpotEnabled Then
-            For Each nic As NetworkInterface In NetworkInterface.GetAllNetworkInterfaces()
-                If nic.NetworkInterfaceType = NetworkInterfaceType.Wireless80211 AndAlso nic.GetIPProperties().GatewayAddresses.Count = 0 Then ' AndAlso nic.OperationalStatus = OperationalStatus.Up 
-                    _HotSpotIPAddress = nic.GetIPProperties().UnicastAddresses.Where(Function(x) x.Address.AddressFamily = AddressFamily.InterNetwork).ToList()(0).Address
-                    If HotSpotIPAddress.ToString().EndsWith(".1") Then
-                        Debug.Print("IPAddress: " + HotSpotIPAddress.ToString())
-                        IPAddressTextBox.Text = $"http://{HotSpotIPAddress}:8080/"
-                        SetupHTTPServer()
-                        Exit For
-                    End If
-                End If
-            Next
+
         End If
 
         Running = True
@@ -181,8 +187,9 @@ Public Class ControlPanel
                                                  Try
                                                      Dim Context = HTTPServer.GetContext() ' HTTPServer.BeginGetContext() Wäre natürlich schöner 😁
                                                      Dim Path = Context.Request.Url.LocalPath
-                                                     If Path = "upload.php" Then
-                                                         FileUpload(Context)
+                                                     If Path = "/" Then Path = "/index.html"
+                                                     If SpecialEndpoints.ContainsKey(Path.ToLower()) Then
+                                                         SpecialEndpoints(Path.ToLower())(Context)
                                                          Continue While
                                                      End If
                                                      Dim x = CurrentAssembly.GetManifestResourceNames()
@@ -202,18 +209,73 @@ Public Class ControlPanel
                                              End While
                                          End Sub)
 
-    Sub Return404Error(ByRef context As HttpListenerContext)
+    Dim SpecialEndpoints As New Dictionary(Of String, Action(Of HttpListenerContext)) From {
+        {
+            "/info",
+            Sub(context As HttpListenerContext)
+                Dim data = "{""teacher"": """ + Environment.UserName + """}"
+                context.Response.ContentType = "application/json"
+                Using stream = context.Response.OutputStream
+                    Using writer As New StreamWriter(stream)
+                        writer.Write(data)
+                    End Using
+                End Using
+            End Sub
+        },
+        {
+            "/error404.html",
+            AddressOf Return404Error
+        },
+        {
+            "/upload.php",
+            Sub(context As HttpListenerContext)
+                Dim InputStreamData As String
+                Using data As New MemoryStream()
+                    Using stream = context.Request.InputStream
+                        stream.CopyTo(data)
+                        data.Position = 0
+                        Using reader As New StreamReader(data)
+                            InputStreamData = reader.ReadToEnd()
 
-    End Sub
+                            Dim Match = Regex.Match(InputStreamData, "\r?\n\r?\n")
+                            Dim substr = InputStreamData.Substring(0, Match.Index + Match.Length)
+                            data.Position = context.Request.ContentEncoding.GetBytes(substr).Length
+                            Dim rest = InputStreamData.Substring(Match.Index + Match.Length)
+                            Match = Regex.Match(rest, "\r?\n--")
+                            rest = rest.Substring(Match.Index + Match.Length, Match.Index)
+                            Dim length = context.Request.ContentEncoding.GetBytes(rest).Length
+                            Dim file(length) As Byte ' data.Length - data.Position - 1
+                            data.Read(file, 0, file.Length)
 
-    Sub FileUpload(ByRef context As HttpListenerContext)
+                            Dim FileName As String = Path.GetFileName(Split(Split(InputStreamData, "filename=""")(1), """")(0))
+                            IO.File.WriteAllBytes(Path.Combine(UploadDir, FileName), file)
+                        End Using
+                    End Using
+                End Using
+                Debug.Print(InputStreamData)
+            End Sub
+        }
+    }
+
+    ReadOnly Property UploadDir
+        Get
+            Dim path = IO.Path.Combine(Application.StartupPath, "Uploads")
+            If Not Directory.Exists(path) Then
+                Directory.CreateDirectory(path)
+            End If
+            Return path
+        End Get
+    End Property
+
+    Sub Return404Error(context As HttpListenerContext)
 
     End Sub
 
     Public Sub SetupHTTPServer(Optional retry As Boolean = False)
         Try
             _HTTPServer = New HttpListener()
-            HTTPServer.Prefixes.Add("http://*:8080/")
+            HTTPServer.Prefixes.Add("http://+:8080/")
+            'HTTPServer.Prefixes.Add("http://192.168.137.1:8080/")
             HTTPServer.Start()
             IPAddressTextBox.Show()
             HTTPListenerThread.IsBackground = True

@@ -165,5 +165,11 @@
   <ItemGroup>
     <Folder Include="HTTP\Server\" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="HTTP\Content\index.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="HTTP\Content\client.exe" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
