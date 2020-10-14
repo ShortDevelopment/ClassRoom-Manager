@@ -234,21 +234,55 @@ Public Class ControlPanel
                     Using stream = context.Request.InputStream
                         stream.CopyTo(data)
                         data.Position = 0
-                        Using reader As New StreamReader(data)
-                            InputStreamData = reader.ReadToEnd()
+                        Using reader As New StreamReader(data, System.Text.Encoding.ASCII)
+                            Dim reading As Boolean = True
+                            Dim FileName As String
+                            Dim FildName As String
+                            Dim ContentType As String
 
-                            Dim Match = Regex.Match(InputStreamData, "\r?\n\r?\n")
-                            Dim substr = InputStreamData.Substring(0, Match.Index + Match.Length)
-                            data.Position = context.Request.ContentEncoding.GetBytes(substr).Length
-                            Dim rest = InputStreamData.Substring(Match.Index + Match.Length)
-                            Match = Regex.Match(rest, "\r?\n--")
-                            rest = rest.Substring(Match.Index + Match.Length, Match.Index)
-                            Dim length = context.Request.ContentEncoding.GetBytes(rest).Length
-                            Dim file(length) As Byte ' data.Length - data.Position - 1
-                            data.Read(file, 0, file.Length)
+                            Dim ReadingContent As Boolean = False
 
-                            Dim FileName As String = Path.GetFileName(Split(Split(InputStreamData, "filename=""")(1), """")(0))
-                            IO.File.WriteAllBytes(Path.Combine(UploadDir, FileName), file)
+                            While reading
+                                If ReadingContent Then
+                                    Dim pos1 = data.Position
+                                    While True
+
+                                        Dim line = reader.ReadLine()
+                                        If line Is Nothing OrElse line.StartsWith("--") Then
+
+                                            Dim pos2 = data.Position - (context.Request.ContentEncoding.GetBytes(line).Length + 4)
+                                            Dim charPos = CType(reader.GetType().GetField("charPos", BindingFlags.CreateInstance Or BindingFlags.Instance Or BindingFlags.NonPublic).GetValue(reader), Integer)
+                                            Dim charLen = CType(reader.GetType().GetField("charLen", BindingFlags.CreateInstance Or BindingFlags.Instance Or BindingFlags.NonPublic).GetValue(reader), Integer)
+                                            Dim x = charPos + charLen
+
+                                            Dim buffer(pos2 - pos1 - 1) As Byte 'Dim buffer(If(pos2 < charPos, charPos, pos2) - pos1 - 1) As Byte
+                                            data.Position = pos1
+                                            data.Read(buffer, 0, buffer.Length)
+
+                                            IO.File.WriteAllBytes(Path.Combine(UploadDir, FileName), buffer)
+                                            ReadingContent = False
+                                            Exit While
+                                        End If
+                                    End While
+                                    Exit While
+                                Else
+                                    Dim line = reader.ReadLine()
+                                    If line.ToLower().StartsWith("content-disposition:") Then
+                                        FileName = Path.GetFileName(Split(Split(line, "filename=""")(1), """")(0))
+                                        FildName = Path.GetFileName(Split(Split(line, "name=""")(1), """")(0))
+                                    ElseIf line.ToLower().StartsWith("content-type:") Then
+                                        ContentType = Split(line.ToLower(), "content-type:")(1).Trim()
+                                    ElseIf line = "" Then
+                                        ReadingContent = True
+                                        Dim charPos = CType(reader.GetType().GetField("charPos", BindingFlags.CreateInstance Or BindingFlags.Instance Or BindingFlags.NonPublic).GetValue(reader), Integer)
+                                        data.Position = charPos
+                                    End If
+                                End If
+                            End While
+
+                            context.Response.StatusCode = HttpStatusCode.OK
+                            context.Response.Close()
+
                         End Using
                     End Using
                 End Using
@@ -274,7 +308,7 @@ Public Class ControlPanel
     Public Sub SetupHTTPServer(Optional retry As Boolean = False)
         Try
             _HTTPServer = New HttpListener()
-            HTTPServer.Prefixes.Add("http://+:8080/")
+            HTTPServer.Prefixes.Add("http://*:8080/")
             'HTTPServer.Prefixes.Add("http://192.168.137.1:8080/")
             HTTPServer.Start()
             IPAddressTextBox.Show()
