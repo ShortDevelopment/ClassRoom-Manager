@@ -242,20 +242,25 @@ Public Class ControlPanel
 
                             Dim ReadingContent As Boolean = False
 
+                            Dim CalculateStreamPosition = Function() As Integer
+                                                              Dim charPos = CType(reader.GetType().GetField("charPos", BindingFlags.CreateInstance Or BindingFlags.Instance Or BindingFlags.NonPublic).GetValue(reader), Integer)
+                                                              Dim charLen = CType(reader.GetType().GetField("charLen", BindingFlags.CreateInstance Or BindingFlags.Instance Or BindingFlags.NonPublic).GetValue(reader), Integer)
+                                                              Dim byteBuffer = CType(reader.GetType().GetField("byteBuffer", BindingFlags.CreateInstance Or BindingFlags.Instance Or BindingFlags.NonPublic).GetValue(reader), Byte())
+                                                              Dim RealStreamPosition = data.Position - (charLen - charPos)
+                                                              'If charLen = charPos AndAlso data.Position = byteBuffer.Length Then RealStreamPosition = charPos
+                                                              Return RealStreamPosition
+                                                          End Function
+                            Dim pos1 = -1
                             While reading
                                 If ReadingContent Then
-                                    Dim pos1 = data.Position
                                     While True
 
                                         Dim line = reader.ReadLine()
                                         If line Is Nothing OrElse line.StartsWith("--") Then
 
-                                            Dim pos2 = data.Position - (context.Request.ContentEncoding.GetBytes(line).Length + 4)
-                                            Dim charPos = CType(reader.GetType().GetField("charPos", BindingFlags.CreateInstance Or BindingFlags.Instance Or BindingFlags.NonPublic).GetValue(reader), Integer)
-                                            Dim charLen = CType(reader.GetType().GetField("charLen", BindingFlags.CreateInstance Or BindingFlags.Instance Or BindingFlags.NonPublic).GetValue(reader), Integer)
-                                            Dim x = charPos + charLen
+                                            Dim pos2 = CalculateStreamPosition() - (context.Request.ContentEncoding.GetBytes(line).Length + 4)
 
-                                            Dim buffer(pos2 - pos1 - 1) As Byte 'Dim buffer(If(pos2 < charPos, charPos, pos2) - pos1 - 1) As Byte
+                                            Dim buffer(pos2 - pos1 - 1) As Byte
                                             data.Position = pos1
                                             data.Read(buffer, 0, buffer.Length)
 
@@ -274,8 +279,7 @@ Public Class ControlPanel
                                         ContentType = Split(line.ToLower(), "content-type:")(1).Trim()
                                     ElseIf line = "" Then
                                         ReadingContent = True
-                                        Dim charPos = CType(reader.GetType().GetField("charPos", BindingFlags.CreateInstance Or BindingFlags.Instance Or BindingFlags.NonPublic).GetValue(reader), Integer)
-                                        data.Position = charPos
+                                        pos1 = CalculateStreamPosition()
                                     End If
                                 End If
                             End While
