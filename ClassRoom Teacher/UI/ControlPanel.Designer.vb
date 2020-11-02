@@ -22,6 +22,7 @@ Partial Class ControlPanel
     'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ControlPanel))
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.PCOverviewPanel = New System.Windows.Forms.Panel()
@@ -46,6 +47,7 @@ Partial Class ControlPanel
         Me.Button1 = New System.Windows.Forms.Button()
         Me.IPAddressTextBox = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
+        Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -300,6 +302,11 @@ Partial Class ControlPanel
         Me.Label2.TabIndex = 0
         Me.Label2.Text = "Server läuft!"
         '
+        'NotifyIcon1
+        '
+        Me.NotifyIcon1.Text = "NotifyIcon1"
+        Me.NotifyIcon1.Visible = True
+        '
         'ControlPanel
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -349,4 +356,5 @@ Partial Class ControlPanel
     Friend WithEvents PictureBox2 As PictureBox
     Friend WithEvents WiFiPasswordTextBox As TextBox
     Friend WithEvents SSIDTextBox As TextBox
+    Friend WithEvents NotifyIcon1 As NotifyIcon
 End Class

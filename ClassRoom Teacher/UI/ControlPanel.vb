@@ -3,6 +3,7 @@ Imports System.Net
 Imports System.Net.NetworkInformation
 Imports System.Net.Sockets
 Imports System.Reflection
+Imports System.Runtime.InteropServices
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Windows.Networking.Connectivity
@@ -12,8 +13,15 @@ Public Class ControlPanel
 
 #Region "Initialize"
 
-    Property UserName As String
-    Property Running As Boolean
+    Private Sub NotifyIcon1_MouseClick(sender As Object, e As MouseEventArgs) Handles NotifyIcon1.MouseClick
+        If Me.WindowState = FormWindowState.Minimized Then Me.WindowState = FormWindowState.Normal
+        Me.Focus()
+        Me.BringToFront()
+    End Sub
+
+    ReadOnly Property UserName As String
+    ReadOnly Property Running As Boolean
+    ReadOnly Property HotSpotEnabled As Boolean
 
     Public Sub New()
         InitializeComponent()
@@ -23,60 +31,27 @@ Public Class ControlPanel
     End Sub
 
     Private Sub ControlPanel_Load(sender As Object, e As EventArgs) Handles Me.Load
-        UserName = Environment.UserName + "@" + Environment.MachineName
+        _UserName = Environment.UserName + "@" + Environment.MachineName
         UserNameLabel.Text = UserName
         UserProfilePictureBox.Image = UserProfile.CurrentUser.Avatar
+
+        NotifyIcon1.Text = Me.Text
+        NotifyIcon1.Icon = Me.Icon
 
         If Environment.OSVersion.Version.Major < 10 Then
             MsgBox("Dieses Programm funktioniert nur unter Windows 10 vollständig!", MsgBoxStyle.Exclamation)
         End If
 
-        Dim HotSpotEnabled As Boolean = False
+        SetupHotSpot()
 
-        Try
-            Dim profile As ConnectionProfile
+        If Not HotSpotEnabled Then
             Try
-                profile = NetworkInformation.GetInternetConnectionProfile()
-                If profile Is Nothing Then Throw New Exception
-            Catch
-                profile = NetworkInformation.GetConnectionProfiles()(0)
-            End Try
-            _HotSpotManager = NetworkOperatorTetheringManager.CreateFromConnectionProfile(profile)
-            OldTeatheringConfiguration = HotSpotManager.GetCurrentAccessPointConfiguration()
-            Dim NewConfig As New NetworkOperatorTetheringAccessPointConfiguration()
-            NewConfig.Ssid = $"ClassRoom of {Environment.UserName}"
-            NewConfig.Passphrase = RandomStringMaker.GetRandomString(8).ToUpper()
-            NewConfig.Band = TetheringWiFiBand.Auto
-            HotSpotManager.ConfigureAccessPointAsync(NewConfig).Completed = Sub()
-                                                                                Thread.Sleep(100)
-                                                                                Me.Invoke(Sub()
-                                                                                              For Each nic As NetworkInterface In NetworkInterface.GetAllNetworkInterfaces()
-                                                                                                  If nic.NetworkInterfaceType = NetworkInterfaceType.Wireless80211 AndAlso nic.GetIPProperties().GatewayAddresses.Count = 0 Then ' AndAlso nic.OperationalStatus = OperationalStatus.Up 
-                                                                                                      _HotSpotIPAddress = nic.GetIPProperties().UnicastAddresses.Where(Function(x) x.Address.AddressFamily = AddressFamily.InterNetwork).ToList()(0).Address
-                                                                                                      If HotSpotIPAddress.ToString().EndsWith(".1") Then
-                                                                                                          Debug.Print("IPAddress: " + HotSpotIPAddress.ToString())
-                                                                                                          IPAddressTextBox.Text = $"http://{HotSpotIPAddress}:8080/"
-                                                                                                          SetupHTTPServer()
-                                                                                                          Exit For
-                                                                                                      End If
-                                                                                                  End If
-                                                                                              Next
-                                                                                          End Sub)
-                                                                            End Sub
-            If Not HotSpotManager.TetheringOperationalState = TetheringOperationalState.On Then HotSpotManager.StartTetheringAsync()
-            SSIDTextBox.Text = NewConfig.Ssid
-            WiFiPasswordTextBox.Text = NewConfig.Passphrase
-            HotSpotEnabled = True
-        Catch ex As Exception
-            WiFiDisplayPanel.Hide()
-            MsgBox("HotSpot:" + vbNewLine + ex.Message, MsgBoxStyle.Exclamation)
-        End Try
-
-        If HotSpotEnabled Then
-
+                IPAddressTextBox.Text = $"http://{NetworkManager.Default.GetIPAddress()}:8080/"
+            Catch : End Try
         End If
 
-        Running = True
+        _Running = True
+
         Server.Start()
         ListenerThread.IsBackground = True
         ListenerThread.Start()
@@ -171,11 +146,57 @@ Public Class ControlPanel
 
 #End Region
 
-#Region "HotSpot (Settings)"
+#Region "HotSpot"
     Dim OldTeatheringConfiguration As NetworkOperatorTetheringAccessPointConfiguration
     Dim OldMaxPersons As Integer
     Public ReadOnly Property HotSpotManager As NetworkOperatorTetheringManager
     Public ReadOnly Property HotSpotIPAddress As IPAddress = Nothing
+
+    Public Sub SetupHotSpot()
+        Try
+            Dim profile As ConnectionProfile
+            Try
+                profile = NetworkInformation.GetInternetConnectionProfile()
+                If profile Is Nothing Then Throw New Exception
+            Catch
+                profile = NetworkInformation.GetConnectionProfiles()(0)
+            End Try
+            _HotSpotManager = NetworkOperatorTetheringManager.CreateFromConnectionProfile(profile)
+            OldTeatheringConfiguration = HotSpotManager.GetCurrentAccessPointConfiguration()
+            Dim NewConfig As New NetworkOperatorTetheringAccessPointConfiguration()
+            NewConfig.Ssid = $"ClassRoom of {Environment.UserName}"
+            NewConfig.Passphrase = RandomStringMaker.GetRandomString(8).ToUpper()
+            NewConfig.Passphrase = OldTeatheringConfiguration.Passphrase
+            NewConfig.Band = TetheringWiFiBand.Auto
+            HotSpotManager.ConfigureAccessPointAsync(NewConfig).Completed = Sub()
+                                                                                Thread.Sleep(200)
+                                                                                Me.Invoke(Sub()
+                                                                                              For Each nic As NetworkInterface In NetworkInterface.GetAllNetworkInterfaces()
+                                                                                                  If nic.NetworkInterfaceType = NetworkInterfaceType.Wireless80211 AndAlso nic.GetIPProperties().GatewayAddresses.Count = 0 Then ' AndAlso nic.OperationalStatus = OperationalStatus.Up 
+                                                                                                      Dim Addresses = nic.GetIPProperties().UnicastAddresses.Where(Function(x) x.Address.AddressFamily = AddressFamily.InterNetwork).ToList()
+                                                                                                      If Addresses.Count > 0 Then
+                                                                                                          _HotSpotIPAddress = Addresses(0).Address
+                                                                                                          If HotSpotIPAddress.ToString().EndsWith(".1") Then
+                                                                                                              Debug.Print("IPAddress: " + HotSpotIPAddress.ToString())
+                                                                                                              IPAddressTextBox.Text = $"http://{HotSpotIPAddress}:8080/"
+                                                                                                              Exit For
+                                                                                                          End If
+                                                                                                      End If
+                                                                                                  End If
+                                                                                              Next
+                                                                                              SetupHTTPServer()
+                                                                                          End Sub)
+                                                                            End Sub
+
+            If Not HotSpotManager.TetheringOperationalState = TetheringOperationalState.On Then HotSpotManager.StartTetheringAsync()
+            SSIDTextBox.Text = NewConfig.Ssid
+            WiFiPasswordTextBox.Text = NewConfig.Passphrase
+            _HotSpotEnabled = True
+        Catch ex As Exception
+            WiFiDisplayPanel.Hide()
+            MsgBox("HotSpot:" + vbNewLine + ex.Message, MsgBoxStyle.Exclamation)
+        End Try
+    End Sub
 #End Region
 
 #Region "HTTPServer"
@@ -186,25 +207,28 @@ Public Class ControlPanel
                                              While Running
                                                  Try
                                                      Dim Context = HTTPServer.GetContext() ' HTTPServer.BeginGetContext() Wäre natürlich schöner 😁
-                                                     Dim Path = Context.Request.Url.LocalPath
-                                                     If Path = "/" Then Path = "/index.html"
-                                                     If SpecialEndpoints.ContainsKey(Path.ToLower()) Then
-                                                         SpecialEndpoints(Path.ToLower())(Context)
-                                                         Continue While
-                                                     End If
-                                                     Dim x = CurrentAssembly.GetManifestResourceNames()
-                                                     Using stream = CurrentAssembly.GetManifestResourceStream($"ClassRoom_Teacher.{Path.Substring(1)}")
-                                                         If stream Is Nothing Then
-                                                             Return404Error(Context)
-                                                             Continue While
-                                                         End If
+                                                     RunOnNewThread(Sub()
+                                                                        Dim Path = Context.Request.Url.LocalPath
+                                                                        If Path = "/" Then Path = "/index.html"
+                                                                        If SpecialEndpoints.ContainsKey(Path.ToLower()) Then
+                                                                            SpecialEndpoints(Path.ToLower())(Context)
+                                                                            Exit Sub
+                                                                        End If
+                                                                        Dim x = CurrentAssembly.GetManifestResourceNames()
+                                                                        Using stream = CurrentAssembly.GetManifestResourceStream($"ClassRoom_Teacher.{Path.Substring(1)}")
+                                                                            If stream Is Nothing Then
+                                                                                Return404Error(Context)
+                                                                                Exit Sub
+                                                                            End If
 
-                                                         Context.Response.StatusCode = CType(HttpStatusCode.OK, Integer)
-                                                         If Path.ToLower().EndsWith(".html") Then Context.Response.ContentType = "text/html"
-                                                         Using outstream = Context.Response.OutputStream
-                                                             stream.CopyTo(outstream)
-                                                         End Using
-                                                     End Using
+                                                                            Context.Response.StatusCode = CType(HttpStatusCode.OK, Integer)
+                                                                            If Path.ToLower().EndsWith(".html") Then Context.Response.ContentType = "text/html"
+                                                                            Using outstream = Context.Response.OutputStream
+                                                                                stream.CopyTo(outstream)
+                                                                            End Using
+                                                                        End Using
+                                                                    End Sub)
+
                                                  Catch : End Try
                                              End While
                                          End Sub)
@@ -264,7 +288,7 @@ Public Class ControlPanel
                                             data.Position = pos1
                                             data.Read(buffer, 0, buffer.Length)
 
-                                            IO.File.WriteAllBytes(Path.Combine(UploadDir, FileName), buffer)
+                                            IO.File.WriteAllBytes(Path.Combine(UploadDir, FileName.RemoveInvalidFilePathCharacters()), buffer)
                                             ReadingContent = False
                                             Exit While
                                         End If
@@ -309,35 +333,17 @@ Public Class ControlPanel
 
     End Sub
 
-    Public Sub SetupHTTPServer(Optional retry As Boolean = False)
+    Public Sub SetupHTTPServer()
         Try
+            If Not FirewallUtils.IsPortOpen(8080) Then FirewallUtils.OpenPort(8080, "ClassRoom Teacher")
             _HTTPServer = New HttpListener()
-            HTTPServer.Prefixes.Add("http://*:8080/")
-            'HTTPServer.Prefixes.Add("http://192.168.137.1:8080/")
+            HTTPServer.Prefixes.Add("http://+:8080/")
             HTTPServer.Start()
             IPAddressTextBox.Show()
             HTTPListenerThread.IsBackground = True
             HTTPListenerThread.Start()
-        Catch ex As System.Net.HttpListenerException
-            If retry Then
-                MsgBox(ex.Message, MsgBoxStyle.Exclamation)
-            Else
-                Dim t As New Thread(Sub()
-                                        Try
-                                            Dim pi As New ProcessStartInfo()
-                                            pi.FileName = "cmd.exe"
-                                            pi.Arguments = $"/K netsh http add urlacl url=""http://*:8080/"" user=""Jeder""" ' https://docs.microsoft.com/en-us/dotnet/framework/wcf/feature-details/configuring-http-and-https#configuring-namespace-reservations
-                                            pi.Verb = "runas"
-                                            Dim p = Process.Start(pi)
-                                            p.WaitForExit()
-                                            Me.Invoke(Sub() SetupHTTPServer(True))
-                                        Catch ex2 As Exception
-
-                                        End Try
-                                    End Sub)
-                t.IsBackground = True
-                t.Start()
-            End If
+        Catch ex As HttpListenerException
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation)
         Catch ex As Exception
 
         End Try
@@ -361,17 +367,21 @@ Public Class ControlPanel
 
     Private Sub ControlPanel_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
 
-        Running = False
+        _Running = False
 
         Try
             Server.Stop()
         Catch : End Try
         Try
-            HTTPServer.Stop()
+            If Not HTTPServer Is Nothing Then
+                HTTPServer.Stop()
+            End If
         Catch : End Try
         Try
-            HotSpotManager.ConfigureAccessPointAsync(OldTeatheringConfiguration)
-            HotSpotManager.StopTetheringAsync()
+            If Not HotSpotManager Is Nothing Then
+                HotSpotManager.ConfigureAccessPointAsync(OldTeatheringConfiguration)
+                HotSpotManager.StopTetheringAsync()
+            End If
         Catch : End Try
     End Sub
 
