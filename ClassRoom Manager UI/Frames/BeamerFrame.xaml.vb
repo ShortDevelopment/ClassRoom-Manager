@@ -7,6 +7,15 @@ Namespace Frames
     Public NotInheritable Class BeamerFrame
         Inherits Page
 
+        Public Sub New()
+
+            InitializeComponent()
+            NavigationCacheMode = NavigationCacheMode.Required
+
+        End Sub
+
+#Region "Links"
+
         Private Sub DisplayToolPresenter_Click(sender As Object, e As RoutedEventArgs)
             Launcher.LaunchUriAsync(New Uri("ms-settings:display"))
         End Sub
@@ -21,6 +30,9 @@ Namespace Frames
                                                          End Sub)
                      End Sub)
         End Sub
+
+#End Region
+
     End Class
 
 End Namespace

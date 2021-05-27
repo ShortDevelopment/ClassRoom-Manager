@@ -130,9 +130,13 @@
     <Compile Include="App.xaml.vb">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ErrorDialog.xaml.vb">
+      <DependentUpon>ErrorDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ToolPresenter.xaml.vb">
       <DependentUpon>ToolPresenter.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Utilities.vb" />
     <Compile Include="Frames\CastReceiverFrame.xaml.vb">
       <DependentUpon>CastReceiverFrame.xaml</DependentUpon>
     </Compile>
@@ -171,6 +175,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\ErrorDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ToolPresenter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

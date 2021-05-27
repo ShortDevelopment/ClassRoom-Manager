@@ -5,12 +5,62 @@
     xmlns:local="using:ClassRoom_Manager.UI"
     xmlns:controls="using:ClassRoom_Manager.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:miracast="using:Windows.Media.Miracast"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <StackPanel Padding="30">
         <TextBlock Text="Miracast" Style="{StaticResource TitleTextBlockStyle}"/>
+
+        <UserControl Height="20" />
+        <TextBlock Text="Einstellungen" Style="{StaticResource SubtitleTextBlockStyle}"/>
+        <UserControl Height="15" />
+
+        <StackPanel Orientation="Horizontal">
+            <TextBox Width="400" Header="Geräte Name" Margin="5" x:Name="DeviceNameTextBox" />
+            <Button Background="Transparent" VerticalAlignment="Center" Margin="0,25,0,0" ToolTipService.ToolTip="Geräte-Namen speichern" Click="SaveDeviceNameButton_Click" >
+                <FontIcon Glyph="&#xE74E;" />
+            </Button>
+        </StackPanel>
+
+        <UserControl Height="20" />
+        <TextBlock Text="Miracast" Style="{StaticResource SubtitleTextBlockStyle}"/>
+        <UserControl Height="15" />
+
+        <ToggleSwitch Header="Gerät für andere Geräte sichtbar" x:Name="MiraCastEnabledToggleSwitch" Toggled="MiraCastEnabledToggleSwitch_Toggled" />
+        <UserControl Height="15" />
+
+        <StackPanel x:Name="MiraCastControlsStackPanel" Orientation="Horizontal">
+            <StackPanel>
+                <TextBlock Text="Verbundene Geräte" Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,5"/>
+                <ListView Width="400" Height="300" Background="#eeee" x:Name="ConnectionsListView">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="miracast:MiracastReceiverConnection">
+                            <TextBlock Text="{x:Bind Transmitter.Name}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+            <UserControl Width="15" />
+            <StackPanel>
+                <TextBlock Text="Aktuelle Verbindung" Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,5"/>
+                <StackPanel x:Name="CurrentConnectionDisplayStackPanel">
+                    <CommandBar IsOpen="False" DefaultLabelPosition="Right">
+                        <AppBarButton Label="Vollbild" Tapped="FullScreenAppBarButton_Tapped">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE740;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarButton Label="Trennen" Tapped="DisconnectAppBarButton_Tapped">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xEA14;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                    </CommandBar>
+                    <MediaPlayerElement Width="500" MinHeight="300" BorderBrush="#eeee" BorderThickness="2" x:Name="MediaPlayerControl" HorizontalAlignment="Stretch" AreTransportControlsEnabled="False"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
 
         <UserControl Height="20" />
         <TextBlock Text="Links" Style="{StaticResource SubtitleTextBlockStyle}"/>

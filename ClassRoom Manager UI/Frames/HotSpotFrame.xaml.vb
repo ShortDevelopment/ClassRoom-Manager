@@ -12,6 +12,7 @@ Namespace Frames
         Public Sub New()
 
             InitializeComponent()
+            NavigationCacheMode = NavigationCacheMode.Required
 
             LoadHotSpot()
             LoadProxy()
