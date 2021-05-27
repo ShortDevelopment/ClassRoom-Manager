@@ -11,8 +11,8 @@
 
     <StackPanel VerticalAlignment="Center">
         <StackPanel HorizontalAlignment="Center">
-            <PersonPicture DisplayName="Max Mustermann" />
-            <TextBlock Text="Max Mustermann" Margin="20" Style="{StaticResource SubheaderTextBlockStyle}" />
+            <PersonPicture DisplayName="Max Mustermann" x:Name="PersonPicture" />
+            <TextBlock Text="Max Mustermann" Margin="20" Style="{StaticResource SubheaderTextBlockStyle}" x:Name="ProfileNameTextBlock" />
         </StackPanel>
     </StackPanel>
 

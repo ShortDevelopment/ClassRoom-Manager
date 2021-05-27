@@ -10,19 +10,50 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <StackPanel Padding="30">
-        <TextBlock Text="HotSpot" Style="{StaticResource TitleTextBlockStyle}"/>
-        <TextBlock Text="Tools" Style="{StaticResource SubtitleTextBlockStyle}"/>
+        <TextBlock Text="HotSpot" Style="{StaticResource TitleTextBlockStyle}" />
+
+        <UserControl Height="20" />
+        <TextBlock Text="Einstellungen" Style="{StaticResource SubtitleTextBlockStyle}"/>
+        <UserControl Height="15" />
+
+        <ToggleSwitch Header="Meine Internetverbindung für andere Geräte freigeben" x:Name="HotSpotEnabledToggleSwitch" Toggled="HotSpotEnabledToggleSwitch_Toggled" />
+        <UserControl Height="15" />
+
+        <StackPanel HorizontalAlignment="Left">
+            <TextBox Width="400" Header="Name" Margin="5" x:Name="HotSpotNameTextBox" />
+            <PasswordBox Width="400" IsPasswordRevealButtonEnabled="True" Header="Passwort" Margin="5" x:Name="HotSpotPasswordBox" />
+
+            <UserControl Height="15" />
+
+            <Button Style="{StaticResource ButtonRevealStyle}" Content="Änderungen übernehmen" HorizontalAlignment="Center" Click="ApplyHotSpotChangesButton_Click" />
+        </StackPanel>
+
+        <UserControl Height="20" />
+        <TextBlock Text="Proxy" Style="{StaticResource SubtitleTextBlockStyle}"/>
+        <UserControl Height="15" />
+
+        <StackPanel Orientation="Horizontal">
+            <TextBox Width="400" IsReadOnly="True" Header="URL" Margin="5" x:Name="ProxyURLTextBox" />
+            <TextBox Width="100" IsReadOnly="True" Header="Port" Margin="5" x:Name="ProxyPortTextBox" />
+            <Button Background="Transparent" VerticalAlignment="Center" Margin="0,25,0,0" ToolTipService.ToolTip="Proxy-Info Neuladen" Click="LoadProxy" >
+                <FontIcon Glyph="&#xE72C;" />
+            </Button>
+        </StackPanel>
+
+        <UserControl Height="20" />
+        <TextBlock Text="Links" Style="{StaticResource SubtitleTextBlockStyle}"/>
+        <UserControl Height="15" />
 
         <Grid ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.HorizontalScrollBarVisibility="Auto">
             <StackPanel Orientation="Horizontal">
 
-                <controls:ToolPresenter Glyph="&#xE88A;" Title="HotSpot" Description="Einstellungen" Click="ToolPresenter_Click" />
-                <controls:ToolPresenter Glyph="&#xE701;" Title="WLAN" Description="Einstellungen" Click="ToolPresenter_Click_1" />
-                <controls:ToolPresenter Glyph="&#xE839;" Title="LAN" Description="Einstellungen" Click="ToolPresenter_Click_2" />
+                <controls:ToolPresenter Glyph="&#xE88A;" Title="HotSpot" Description="Einstellungen" Click="HotSpotToolPresenter_Click" />
+                <controls:ToolPresenter Glyph="&#xE701;" Title="WLAN" Description="Einstellungen" Click="WLanToolPresenter_Click" />
+                <controls:ToolPresenter Glyph="&#xE839;" Title="LAN" Description="Einstellungen" Click="LanToolPresenter_Click" />
 
             </StackPanel>
         </Grid>
 
     </StackPanel>
-    
+
 </Page>

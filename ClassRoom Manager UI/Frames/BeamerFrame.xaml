@@ -11,7 +11,10 @@
 
     <StackPanel Padding="30">
         <TextBlock Text="Beamer" Style="{StaticResource TitleTextBlockStyle}"/>
+
+        <UserControl Height="20" />
         <TextBlock Text="Tools" Style="{StaticResource SubtitleTextBlockStyle}"/>
+        <UserControl Height="15" />
 
         <Grid ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.HorizontalScrollBarVisibility="Auto">
             <StackPanel Orientation="Horizontal">
