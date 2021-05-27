@@ -8,23 +8,23 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <ScrollViewer>
+        <StackPanel Padding="30">
+            <TextBlock Text="Beamer" Style="{StaticResource TitleTextBlockStyle}"/>
 
-    <StackPanel Padding="30">
-        <TextBlock Text="Beamer" Style="{StaticResource TitleTextBlockStyle}"/>
+            <UserControl Height="20" />
+            <TextBlock Text="Links" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            <UserControl Height="15" />
 
-        <UserControl Height="20" />
-        <TextBlock Text="Links" Style="{StaticResource SubtitleTextBlockStyle}"/>
-        <UserControl Height="15" />
+            <ScrollViewer HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto" VerticalScrollMode="Disabled">
+                <StackPanel Orientation="Horizontal">
 
-        <Grid ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.HorizontalScrollBarVisibility="Auto">
-            <StackPanel Orientation="Horizontal">
+                    <controls:ToolPresenter Glyph="&#xE7F4;" Title="Anzeige" Description="Einstellungen" Click="DisplayToolPresenter_Click" />
+                    <controls:ToolPresenter Glyph="&#xEBC6;" Title="Projizieren" Description="Win + P" Click="ProjectToolPresenter_Click" />
 
-                <controls:ToolPresenter Glyph="&#xE7F4;" Title="Anzeige" Description="Einstellungen" Click="DisplayToolPresenter_Click" />
-                <controls:ToolPresenter Glyph="&#xEBC6;" Title="Projizieren" Description="Win + P" Click="ProjectToolPresenter_Click" />
+                </StackPanel>
+            </ScrollViewer>
 
-            </StackPanel>
-        </Grid>
-
-    </StackPanel>
-    
+        </StackPanel>
+    </ScrollViewer>
 </Page>

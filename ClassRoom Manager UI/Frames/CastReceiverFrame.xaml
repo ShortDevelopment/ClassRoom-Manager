@@ -8,32 +8,31 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:miracast="using:Windows.Media.Miracast"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <ScrollViewer>
+        <StackPanel Padding="30">
+            <TextBlock Text="Miracast" Style="{StaticResource TitleTextBlockStyle}"/>
 
-    <StackPanel Padding="30">
-        <TextBlock Text="Miracast" Style="{StaticResource TitleTextBlockStyle}"/>
+            <UserControl Height="20" />
+            <TextBlock Text="Einstellungen" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            <UserControl Height="15" />
 
-        <UserControl Height="20" />
-        <TextBlock Text="Einstellungen" Style="{StaticResource SubtitleTextBlockStyle}"/>
-        <UserControl Height="15" />
+            <StackPanel Orientation="Horizontal">
+                <TextBox Width="400" Header="Geräte Name" Margin="5" x:Name="DeviceNameTextBox" />
+                <Button Background="Transparent" VerticalAlignment="Center" Margin="0,25,0,0" ToolTipService.ToolTip="Geräte-Namen speichern" Click="SaveDeviceNameButton_Click" >
+                    <FontIcon Glyph="&#xE74E;" />
+                </Button>
+            </StackPanel>
 
-        <StackPanel Orientation="Horizontal">
-            <TextBox Width="400" Header="Geräte Name" Margin="5" x:Name="DeviceNameTextBox" />
-            <Button Background="Transparent" VerticalAlignment="Center" Margin="0,25,0,0" ToolTipService.ToolTip="Geräte-Namen speichern" Click="SaveDeviceNameButton_Click" >
-                <FontIcon Glyph="&#xE74E;" />
-            </Button>
-        </StackPanel>
+            <UserControl Height="20" />
+            <TextBlock Text="Miracast" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            <UserControl Height="15" />
 
-        <UserControl Height="20" />
-        <TextBlock Text="Miracast" Style="{StaticResource SubtitleTextBlockStyle}"/>
-        <UserControl Height="15" />
+            <ToggleSwitch Header="Gerät für andere Geräte sichtbar" x:Name="MiraCastEnabledToggleSwitch" Toggled="MiraCastEnabledToggleSwitch_Toggled" />
+            <UserControl Height="15" />
 
-        <ToggleSwitch Header="Gerät für andere Geräte sichtbar" x:Name="MiraCastEnabledToggleSwitch" Toggled="MiraCastEnabledToggleSwitch_Toggled" />
-        <UserControl Height="15" />
-
-        <StackPanel x:Name="MiraCastControlsStackPanel" Orientation="Horizontal">
-            <StackPanel>
+            <StackPanel x:Name="MiraCastControlsStackPanel">
                 <TextBlock Text="Verbundene Geräte" Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,5"/>
-                <ListView Width="400" Height="300" Background="#eeee" x:Name="ConnectionsListView">
+                <ListView Height="150" Background="#f7f7f7" x:Name="ConnectionsListView">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="miracast:MiracastReceiverConnection">
                             <Grid>
@@ -55,20 +54,19 @@
                     </ListView.ItemContainerStyle>
                 </ListView>
             </StackPanel>
+
+            <UserControl Height="20" />
+            <TextBlock Text="Links" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            <UserControl Height="15" />
+
+            <ScrollViewer HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto" VerticalScrollMode="Disabled">
+                <StackPanel Orientation="Horizontal">
+
+                    <controls:ToolPresenter Glyph="&#xEC15;" Title="Miracast" Description="Einstellungen" Click="MiracastToolPresenter_Click" />
+
+                </StackPanel>
+            </ScrollViewer>
+
         </StackPanel>
-
-        <UserControl Height="20" />
-        <TextBlock Text="Links" Style="{StaticResource SubtitleTextBlockStyle}"/>
-        <UserControl Height="15" />
-
-        <Grid ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.HorizontalScrollBarVisibility="Auto">
-            <StackPanel Orientation="Horizontal">
-
-                <controls:ToolPresenter Glyph="&#xEC15;" Title="Miracast" Description="Einstellungen" Click="MiracastToolPresenter_Click" />
-
-            </StackPanel>
-        </Grid>
-
-    </StackPanel>
-
+    </ScrollViewer>
 </Page>
