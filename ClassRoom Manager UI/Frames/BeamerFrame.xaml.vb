@@ -7,11 +7,11 @@ Namespace Frames
     Public NotInheritable Class BeamerFrame
         Inherits Page
 
-        Private Sub ToolPresenter_Click(sender As Object, e As RoutedEventArgs)
+        Private Sub DisplayToolPresenter_Click(sender As Object, e As RoutedEventArgs)
             Launcher.LaunchUriAsync(New Uri("ms-settings:display"))
         End Sub
 
-        Private Sub ToolPresenter_Click_1(sender As Object, e As RoutedEventArgs)
+        Private Sub ProjectToolPresenter_Click(sender As Object, e As RoutedEventArgs)
             Task.Run(Sub()
                          Wow64Interop.RunWithoutRedirect(Sub()
                                                              Process.Start(New ProcessStartInfo() With {

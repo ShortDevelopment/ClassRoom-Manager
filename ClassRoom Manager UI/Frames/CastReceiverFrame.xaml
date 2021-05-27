@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="ClassRoom_Manager.UI.Frames.BeamerFrame"
+    x:Class="ClassRoom_Manager.UI.Frames.CastReceiverFrame"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ClassRoom_Manager.UI"
@@ -10,7 +10,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <StackPanel Padding="30">
-        <TextBlock Text="Beamer" Style="{StaticResource TitleTextBlockStyle}"/>
+        <TextBlock Text="Miracast" Style="{StaticResource TitleTextBlockStyle}"/>
 
         <UserControl Height="20" />
         <TextBlock Text="Links" Style="{StaticResource SubtitleTextBlockStyle}"/>
@@ -19,8 +19,7 @@
         <Grid ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.HorizontalScrollBarVisibility="Auto">
             <StackPanel Orientation="Horizontal">
 
-                <controls:ToolPresenter Glyph="&#xE7F4;" Title="Anzeige" Description="Einstellungen" Click="DisplayToolPresenter_Click" />
-                <controls:ToolPresenter Glyph="&#xEBC6;" Title="Projizieren" Description="Win + P" Click="ProjectToolPresenter_Click" />
+                <controls:ToolPresenter Glyph="&#xEBC6;" Title="Projizieren auf diesen PC" Description="Einstellungen" Click="MiracastToolPresenter_Click" />
 
             </StackPanel>
         </Grid>
