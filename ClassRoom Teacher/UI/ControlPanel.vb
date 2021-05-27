@@ -288,7 +288,12 @@ Public Class ControlPanel
                                             data.Position = pos1
                                             data.Read(buffer, 0, buffer.Length)
 
-                                            IO.File.WriteAllBytes(Path.Combine(UploadDir, FileName.RemoveInvalidFilePathCharacters()), buffer)
+                                            Dim FinalPath = Path.Combine(UploadDir, FileName.RemoveInvalidFilePathCharacters())
+
+                                            IO.File.WriteAllBytes(FinalPath, buffer)
+                                            Me.Invoke(Sub()
+                                                          NotifyIcon1.ShowBalloonTip(1000, "Neue Datei", $"Die Datei ""{Path.GetFileName(FinalPath)}""", ToolTipIcon.Info)
+                                                      End Sub)
                                             ReadingContent = False
                                             Exit While
                                         End If
@@ -319,7 +324,7 @@ Public Class ControlPanel
         }
     }
 
-    ReadOnly Property UploadDir
+    ReadOnly Property UploadDir As String
         Get
             Dim path = IO.Path.Combine(Application.StartupPath, "Uploads")
             If Not Directory.Exists(path) Then
@@ -355,9 +360,24 @@ Public Class ControlPanel
 
     Private Sub ControlPanel_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
         Panel9.Location = New Point(Panel9.Parent.Width / 2 - Panel9.Width / 2, Panel9.Parent.Height / 2 - Panel9.Height / 2)
+        MenuPanel.Location = New Point(MenuPanel.Parent.Width - MenuPanel.Width, 0)
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub UserProfilePictureBox_Click(sender As Object, e As EventArgs) Handles UserProfilePictureBox.Click
+        If MenuPanel.Visible Then
+            MenuPanel.Hide()
+        Else
+            MenuPanel.Show()
+        End If
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        MenuPanel.Hide()
+        Process.Start(UploadDir)
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click, Button3.Click
+        MenuPanel.Hide()
         Process.Start("ms-settings:network-mobilehotspot")
     End Sub
 
