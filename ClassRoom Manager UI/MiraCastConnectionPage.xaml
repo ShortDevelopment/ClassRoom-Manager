@@ -1,0 +1,40 @@
+﻿<Page
+    x:Class="ClassRoom_Manager.UI.MiraCastConnectionPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ClassRoom_Manager.UI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <CommandBar IsOpen="False" DefaultLabelPosition="Right" Grid.Row="0">
+            <AppBarElementContainer VerticalContentAlignment="Center">
+                <TextBlock Text="DeviceName" />
+            </AppBarElementContainer>
+            <AppBarSeparator />
+            <AppBarButton Label="Lautstärke">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE767;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Label="Vollbild">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE740;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarSeparator />
+            <AppBarButton Label="Trennen">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xEA14;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </CommandBar>
+        <MediaPlayerElement BorderBrush="#eeee" BorderThickness="2" x:Name="MediaPlayerControl" HorizontalAlignment="Stretch" AreTransportControlsEnabled="False" Grid.Row="1" />
+    </Grid>
+</Page>

@@ -1,14 +1,15 @@
-﻿Imports Microsoft.Toolkit.Win32.UI.XamlHost
-''' <summary>
-''' Stellt das anwendungsspezifische Verhalten bereit, um die Standardanwendungsklasse zu ergänzen.
-''' </summary>
+﻿Imports ClassRoom_Manager.UI.Interop.Application
+Imports Microsoft.Toolkit.Win32.UI.XamlHost
+
 Public NotInheritable Class App
     Inherits XamlApplication
 
-    Public Sub New()
+    Public ReadOnly Property ApplicationManager As IApplicationCore
+
+    Public Sub New(applicationManager As IApplicationCore)
 
         Initialize()
-        'InitializeComponent()
+        Me.ApplicationManager = applicationManager
 
     End Sub
 

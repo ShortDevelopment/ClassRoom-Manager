@@ -1,23 +1,14 @@
 ﻿Imports Microsoft.Toolkit.Forms.UI.XamlHost
 
 Public Class Form1
-
-    Public ReadOnly Property XamlIsland As WindowsXamlHost
+    Inherits ApplicationCoreWindow
 
     Public Sub New()
+        'MyBase.New(GetType(UI.MainPage))
 
-        InitializeComponent()
-
-#Region "Xaml Island"
-        XamlIsland = New WindowsXamlHost()
-        XamlIsland.Dock = DockStyle.Fill
-        Me.Controls.Add(XamlIsland)
-
-        XamlIsland.Child = New UI.MainPage()
-#End Region
+        Content = New UI.MainPage()
 
         WindowState = FormWindowState.Maximized
-
     End Sub
 
 End Class

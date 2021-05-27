@@ -18,12 +18,6 @@ Namespace Frames
 
             LoadMiracast()
 
-            Dim player As New MediaPlayer() With {
-                                    .Source = MediaSource.CreateFromUri(New Uri("file:///D:\Aufnahmen\Render Test v1.mp4"))
-                                    }
-            MediaPlayerControl.SetMediaPlayer(player)
-            player.Play()
-
         End Sub
 
 #Region "MiraCast"
@@ -64,25 +58,18 @@ Namespace Frames
             If MiraCastEnabledToggleSwitch.IsOn Then
                 _CurrentSession = Server.CreateSession(Nothing)
                 CurrentSession.AllowConnectionTakeover = False
+                CurrentSession.MaxSimultaneousConnections = 10
                 AddHandler CurrentSession.ConnectionCreated, Sub(session As MiracastReceiverSession, args As MiracastReceiverConnectionCreatedEventArgs)
                                                                  Connections.Add(args.Connection)
                                                                  ConnectionPins.Add(args.Pin)
                                                              End Sub
                 AddHandler CurrentSession.MediaSourceCreated, Sub(session As MiracastReceiverSession, args As MiracastReceiverMediaSourceCreatedEventArgs)
-                                                                  Dim player As New MediaPlayer() With {
-                                                                    .Source = args.MediaSource,
-                                                                    .RealTimePlayback = True
-                                                                  }
-                                                                  MediaPlayerControl.SetMediaPlayer(player)
-                                                                  player.Play()
-                                                                  _CurrentConnection = args.Connection
+                                                                  Dim window = CType(App.Current, App).ApplicationManager.CreateNewWindow()
+                                                                  window.Content = New MiraCastConnectionPage(args.Connection, args.MediaSource)
+                                                                  window.Show()
                                                               End Sub
                 AddHandler CurrentSession.Disconnected, Sub(session As MiracastReceiverSession, args As MiracastReceiverDisconnectedEventArgs)
-                                                            Dim item = Connections.Where(Function(x) x.Transmitter.MacAddress = args.Connection.Transmitter.MacAddress).FirstOrDefault()
-                                                            If item IsNot Nothing Then
-                                                                Connections.Remove(item)
-                                                                ConnectionPins.RemoveAt(Connections.IndexOf(item))
-                                                            End If
+
                                                         End Sub
                 Dim result = Await CurrentSession.StartAsync()
 
@@ -100,12 +87,12 @@ Namespace Frames
 
         End Sub
 
-        Private Sub FullScreenAppBarButton_Tapped(sender As Object, e As TappedRoutedEventArgs)
-            MediaPlayerControl.IsFullWindow = True
-        End Sub
-
-        Private Sub DisconnectAppBarButton_Tapped(sender As Object, e As TappedRoutedEventArgs)
-            CurrentConnection.Disconnect(MiracastReceiverDisconnectReason.DisconnectedByUser)
+        Public Sub TryRemoveConnection(connection As MiracastReceiverConnection)
+            Dim item = Connections.Where(Function(x) x.Transmitter.MacAddress = connection.Transmitter.MacAddress).FirstOrDefault()
+            If item IsNot Nothing Then
+                ConnectionPins.RemoveAt(Connections.IndexOf(item))
+                Connections.Remove(item)
+            End If
         End Sub
 
 #End Region
