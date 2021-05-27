@@ -47,6 +47,9 @@ Public NotInheritable Class MainPage
             Case "hotspot"
                 MainContentFrame.Navigate(GetType(Frames.HotSpotFrame))
 
+            Case "cast_receiver"
+                MainContentFrame.Navigate(GetType(Frames.CastReceiverFrame))
+
             Case Else
                 MainContentFrame.Navigate(GetType(Frames.HomeFrame))
         End Select

@@ -24,7 +24,7 @@
                     <FontIcon Glyph="&#xE95D;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="Miracast" Tag="miracast">
+            <NavigationViewItem Content="Miracast" Tag="cast_receiver">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xEC15;" />
                 </NavigationViewItem.Icon>

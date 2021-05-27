@@ -19,7 +19,7 @@
         <Grid ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.HorizontalScrollBarVisibility="Auto">
             <StackPanel Orientation="Horizontal">
 
-                <controls:ToolPresenter Glyph="&#xEBC6;" Title="Projizieren auf diesen PC" Description="Einstellungen" Click="MiracastToolPresenter_Click" />
+                <controls:ToolPresenter Glyph="&#xEC15;" Title="Miracast" Description="Einstellungen" Click="MiracastToolPresenter_Click" />
 
             </StackPanel>
         </Grid>
