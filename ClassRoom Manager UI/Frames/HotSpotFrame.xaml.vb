@@ -29,9 +29,6 @@ Namespace Frames
 
             _HotSpotManager = NetworkOperatorTetheringManager.CreateFromConnectionProfile(ConnectionProfile)
 
-            settingHotSpotEnabledToggleSwitch_Toggled_Internal = True
-            HotSpotEnabledToggleSwitch.IsOn = HotSpotManager.TetheringOperationalState = TetheringOperationalState.On
-
             ShowHotSpotInfo()
         End Sub
 
@@ -54,6 +51,9 @@ Namespace Frames
         End Sub
 
         Public Sub ShowHotSpotInfo()
+            settingHotSpotEnabledToggleSwitch_Toggled_Internal = True
+            HotSpotEnabledToggleSwitch.IsOn = HotSpotManager.TetheringOperationalState = TetheringOperationalState.On
+
             Dim config = HotSpotManager.GetCurrentAccessPointConfiguration()
             HotSpotNameTextBox.Text = config.Ssid
             HotSpotPasswordBox.Password = config.Passphrase
@@ -61,10 +61,14 @@ Namespace Frames
         End Sub
 
         Private Async Sub ApplyHotSpotChangesButton_Click(sender As Object, e As RoutedEventArgs)
-            Dim config = HotSpotManager.GetCurrentAccessPointConfiguration()
-            config.Ssid = HotSpotNameTextBox.Text
-            config.Passphrase = HotSpotPasswordBox.Password
-            Await HotSpotManager.ConfigureAccessPointAsync(config)
+            Try
+                Dim config = HotSpotManager.GetCurrentAccessPointConfiguration()
+                config.Ssid = HotSpotNameTextBox.Text
+                config.Passphrase = HotSpotPasswordBox.Password
+                Await HotSpotManager.ConfigureAccessPointAsync(config)
+            Catch ex As Exception
+
+            End Try
         End Sub
 
 #End Region
