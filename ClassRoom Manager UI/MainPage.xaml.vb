@@ -46,11 +46,14 @@ Public NotInheritable Class MainPage
             Case "beamer"
                 MainContentFrame.Navigate(GetType(Frames.BeamerFrame))
 
+            Case "cast_receiver"
+                MainContentFrame.Navigate(GetType(Frames.CastReceiverFrame))
+
             Case "hotspot"
                 MainContentFrame.Navigate(GetType(Frames.HotSpotFrame))
 
-            Case "cast_receiver"
-                MainContentFrame.Navigate(GetType(Frames.CastReceiverFrame))
+            Case "tools"
+                MainContentFrame.Navigate(GetType(Frames.ToolsFrame))
 
             Case Else
                 MainContentFrame.Navigate(GetType(Frames.HomeFrame))

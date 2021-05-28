@@ -1,0 +1,26 @@
+﻿<Page
+    x:Class="ClassRoom_Manager.UI.Frames.ToolsFrame"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ClassRoom_Manager.UI"
+    xmlns:controls="using:ClassRoom_Manager.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <ScrollViewer>
+        <StackPanel Padding="30">
+            <TextBlock Text="Tools" Style="{StaticResource TitleTextBlockStyle}"/>
+            <UserControl Height="15" />
+
+            <ScrollViewer HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto" VerticalScrollMode="Disabled">
+                <StackPanel Orientation="Horizontal">
+
+                    <controls:ToolPresenter Glyph="&#xE9A9;" Title="Abdecken" Description="Bildschirmbereich abdecken" Click="CoverToolPresenter_Click" />
+
+                </StackPanel>
+            </ScrollViewer>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

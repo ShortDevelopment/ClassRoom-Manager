@@ -1,0 +1,16 @@
+﻿<Page
+    x:Class="ClassRoom_Manager.UI.CoverScreenPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ClassRoom_Manager.UI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="#000">
+
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Button Click="Button_Click">
+            <FontIcon Glyph="&#xE74D;" Foreground="#ffff" FontSize="30" />
+        </Button>
+    </Grid>
+</Page>

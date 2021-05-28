@@ -18,7 +18,7 @@
             <FontIcon Glyph="&#xE8B9;" FontSize="40" Grid.Column="0" x:Name="FontIcon" />
             <StackPanel VerticalAlignment="Center" Grid.Column="1">
                 <TextBlock Text="Title" Style="{StaticResource SubtitleTextBlockStyle}" x:Name="TitleTextBlock" />
-                <TextBlock Text="Description" x:Name="DescriptionTextBlock" />
+                <TextBlock Text="Description" Style="{StaticResource BodyTextBlockStyle}" x:Name="DescriptionTextBlock" />
             </StackPanel>
         </Grid>
     </Button>

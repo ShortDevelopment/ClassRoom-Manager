@@ -145,6 +145,12 @@
       <DependentUpon>ToolPresenter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Utilities.vb" />
+    <Compile Include="CoverScreenPage.xaml.vb">
+      <DependentUpon>CoverScreenPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Frames\ToolsFrame.xaml.vb">
+      <DependentUpon>ToolsFrame.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Frames\CastReceiverFrame.xaml.vb">
       <DependentUpon>CastReceiverFrame.xaml</DependentUpon>
     </Compile>
@@ -194,6 +200,14 @@
     <Page Include="Controls\ToolPresenter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CoverScreenPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Frames\ToolsFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Frames\CastReceiverFrame.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -11,9 +11,11 @@
         Sub Activate()
         Sub Show()
         Sub Hide()
+        Sub Close()
 
         Property Title As String
         Property WindowState As CoreWindowState
+        Property HasSystemTitleBar As Boolean
 
         Property Content As UIElement
 

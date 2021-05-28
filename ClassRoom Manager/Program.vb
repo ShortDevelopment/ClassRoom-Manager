@@ -21,6 +21,12 @@ Public Class Program
         End Sub
 
         Protected Sub Inititalize()
+
+            AddHandler AppDomain.CurrentDomain.UnhandledException, Sub(sender As Object, e As UnhandledExceptionEventArgs)
+                                                                       Dim ex As Exception = e.ExceptionObject
+                                                                       If Debugger.IsAttached Then Debugger.Break()
+                                                                   End Sub
+
             Using New UI.App(Me)
                 Application.Run(New Form1())
             End Using
