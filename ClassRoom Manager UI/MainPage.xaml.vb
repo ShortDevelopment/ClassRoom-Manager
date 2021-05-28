@@ -55,6 +55,9 @@ Public NotInheritable Class MainPage
             Case "tools"
                 MainContentFrame.Navigate(GetType(Frames.ToolsFrame))
 
+            Case ""
+                MainContentFrame.Navigate(GetType(Frames.SettingsFrame))
+
             Case Else
                 MainContentFrame.Navigate(GetType(Frames.HomeFrame))
         End Select

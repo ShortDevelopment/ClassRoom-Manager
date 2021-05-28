@@ -20,8 +20,8 @@
             <UserControl Height="15" />
 
             <StackPanel HorizontalAlignment="Left">
-                <TextBox Width="400" Header="Name" Margin="5" x:Name="HotSpotNameTextBox" />
-                <PasswordBox Width="400" IsPasswordRevealButtonEnabled="True" Header="Passwort" Margin="5" x:Name="HotSpotPasswordBox" />
+                <TextBox PlaceholderText="SSID" Width="400" Header="Name" Margin="5" x:Name="HotSpotNameTextBox" />
+                <PasswordBox PlaceholderText="Passwort" Width="400" IsPasswordRevealButtonEnabled="True" Header="Passwort" Margin="5" x:Name="HotSpotPasswordBox" />
 
                 <UserControl Height="15" />
 

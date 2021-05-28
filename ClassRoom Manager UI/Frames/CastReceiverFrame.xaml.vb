@@ -1,8 +1,6 @@
-﻿Imports Windows.Media.Miracast
+﻿Imports ClassRoom_Manager.UI.Controls
+Imports Windows.Media.Miracast
 Imports Windows.System
-Imports ClassRoom_Manager.UI.Controls
-Imports Windows.Media.Playback
-Imports Windows.Media.Core
 
 Namespace Frames
 

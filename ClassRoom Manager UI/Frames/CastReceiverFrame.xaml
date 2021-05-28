@@ -17,7 +17,7 @@
             <UserControl Height="15" />
 
             <StackPanel Orientation="Horizontal">
-                <TextBox Width="400" Header="Geräte Name" Margin="5" x:Name="DeviceNameTextBox" />
+                <TextBox PlaceholderText="Geräte Name" Width="400" Header="Geräte Name" Margin="5" x:Name="DeviceNameTextBox" />
                 <Button Background="Transparent" VerticalAlignment="Center" Margin="0,25,0,0" ToolTipService.ToolTip="Geräte-Namen speichern" Click="SaveDeviceNameButton_Click" >
                     <FontIcon Glyph="&#xE74E;" />
                 </Button>

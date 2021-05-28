@@ -1,6 +1,4 @@
-﻿
-Imports ClassRoom_Manager.UI.Interop
-Imports Windows.Networking.Connectivity
+﻿Imports Windows.Networking.Connectivity
 Imports Windows.Networking.NetworkOperators
 Imports Windows.System
 

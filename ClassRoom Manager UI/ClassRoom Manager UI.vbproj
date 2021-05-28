@@ -148,6 +148,9 @@
     <Compile Include="CoverScreenPage.xaml.vb">
       <DependentUpon>CoverScreenPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Frames\SettingsFrame.xaml.vb">
+      <DependentUpon>SettingsFrame.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Frames\ToolsFrame.xaml.vb">
       <DependentUpon>ToolsFrame.xaml</DependentUpon>
     </Compile>
@@ -204,6 +207,10 @@
     <Page Include="CoverScreenPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Frames\SettingsFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Frames\ToolsFrame.xaml">
       <Generator>MSBuild:Compile</Generator>

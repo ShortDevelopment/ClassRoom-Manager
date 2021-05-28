@@ -1,8 +1,4 @@
-﻿
-Imports ClassRoom_Manager.UI.Interop
-Imports Windows.System
-
-Namespace Frames
+﻿Namespace Frames
 
     Public NotInheritable Class ToolsFrame
         Inherits Page
