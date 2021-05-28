@@ -36,6 +36,8 @@ Public NotInheritable Class MainPage
 
         ProfileNameTextBlock.Text = $"{Await CurrentUser.GetPropertyAsync(KnownUserProperties.FirstName)} {Await CurrentUser.GetPropertyAsync(KnownUserProperties.LastName)}"
 #End Region
+
+        MainNavigationView.SelectedItem = MainNavigationView.MenuItems(0)
     End Sub
 
     Private Sub MainNavigationView_SelectionChanged(sender As NavigationView, args As NavigationViewSelectionChangedEventArgs)

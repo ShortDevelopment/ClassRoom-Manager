@@ -30,6 +30,9 @@ Namespace Frames
                                                          End Sub)
                      End Sub)
         End Sub
+        Private Sub ConnectToolPresenter_Click(sender As Object, e As RoutedEventArgs)
+            Launcher.LaunchUriAsync(New Uri("ms-settings-connectabledevices:devicediscovery"))
+        End Sub
 
 #End Region
 

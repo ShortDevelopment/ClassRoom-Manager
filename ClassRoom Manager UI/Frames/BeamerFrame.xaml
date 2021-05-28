@@ -22,6 +22,8 @@
                     <controls:ToolPresenter Glyph="&#xE7F4;" Title="Anzeige" Description="Einstellungen" Click="DisplayToolPresenter_Click" />
                     <controls:ToolPresenter Glyph="&#xEBC6;" Title="Projizieren" Description="Win + P" Click="ProjectToolPresenter_Click" />
 
+                    <controls:ToolPresenter Glyph="&#xEC15;" Title="Verbinden" Description="Einstellungen" Click="ConnectToolPresenter_Click" />
+
                 </StackPanel>
             </ScrollViewer>
 
