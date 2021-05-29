@@ -46,6 +46,9 @@ Public NotInheritable Class MainPage
             Case "beamer"
                 MainContentFrame.Navigate(GetType(Frames.BeamerFrame))
 
+            Case "audio"
+                MainContentFrame.Navigate(GetType(Frames.AudioFrame))
+
             Case "cast_receiver"
                 MainContentFrame.Navigate(GetType(Frames.CastReceiverFrame))
 
