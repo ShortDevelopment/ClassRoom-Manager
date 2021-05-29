@@ -9,8 +9,10 @@
         <controls:XamlControlsResources>
             <controls:XamlControlsResources.MergedDictionaries>
                 <!-- Other app resources here -->
+                <ResourceDictionary>
+                    <SolidColorBrush Color="#AA000000" x:Key="SemitransparentBrush"/>
+                </ResourceDictionary>
             </controls:XamlControlsResources.MergedDictionaries>
         </controls:XamlControlsResources>
-        
     </Application.Resources>
 </xamlhost:XamlApplication>

@@ -169,6 +169,15 @@ Public Class ApplicationCoreWindow
 
 #End Region
 
+    Const WS_EX_NOREDIRECTIONBITMAP As Integer = &H200000L
+    Protected Overrides ReadOnly Property CreateParams As CreateParams
+        Get
+            Dim params = MyBase.CreateParams
+            params.ExStyle = params.ExStyle Or WS_EX_NOREDIRECTIONBITMAP
+            Return params
+        End Get
+    End Property
+
 #End Region
 
 End Class
