@@ -63,7 +63,7 @@ Namespace Frames
                                                              End Sub
                 AddHandler CurrentSession.MediaSourceCreated, Sub(session As MiracastReceiverSession, args As MiracastReceiverMediaSourceCreatedEventArgs)
                                                                   Dim window = CType(App.Current, App).ApplicationManager.CreateNewWindow()
-                                                                  window.Content = New MiraCastConnectionPage(args.Connection, args.MediaSource)
+                                                                  window.Content = New MiraCastConnectionPage(window, args.Connection, args.MediaSource)
                                                                   window.Show()
                                                               End Sub
                 AddHandler CurrentSession.Disconnected, Sub(session As MiracastReceiverSession, args As MiracastReceiverDisconnectedEventArgs)

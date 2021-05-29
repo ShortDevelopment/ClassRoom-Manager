@@ -5,7 +5,7 @@
     xmlns:local="using:ClassRoom_Manager.UI"
     xmlns:controls="using:ClassRoom_Manager.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:enumeration="using:Windows.Devices.Enumeration"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <ScrollViewer>
@@ -15,8 +15,34 @@
             <UserControl Height="20" />
             <TextBlock Text="Bluetooth A2DP Sink" Style="{StaticResource SubtitleTextBlockStyle}"/>
             <UserControl Height="15" />
-            
-            
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <CommandBar Background="Transparent" DefaultLabelPosition="Right">
+                    <AppBarButton Label="Verbinden" IsEnabled="False" x:Name="ConnectAppBarButton" Click="ConnectAppBarButton_Click">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE768;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Label="Trennen" IsEnabled="False" x:Name="DisconnectAppBarButton" Click="DisconnectAppBarButton_Click">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xEA14;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                </CommandBar>
+            </StackPanel>
+
+            <ListView x:Name="DeviceListView" ItemsSource="{x:Bind A2DPAudioDevices}" MinHeight="30" SelectionChanged="DeviceListView_SelectionChanged">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="enumeration:DeviceInformation">
+                        <StackPanel Orientation="Horizontal" Margin="6">
+                            <SymbolIcon Symbol="Audio" Margin="0,0,12,0"/>
+                            <StackPanel>
+                                <TextBlock Text="{x:Bind Name}" FontWeight="Bold"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
             <UserControl Height="20" />
             <TextBlock Text="Links" Style="{StaticResource SubtitleTextBlockStyle}"/>

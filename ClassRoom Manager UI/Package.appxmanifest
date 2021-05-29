@@ -48,5 +48,6 @@
     <Capability Name="internetClient" />
     <uap:Capability Name="userAccountInformation"/>
     <iot:Capability Name="systemManagement"/>
+    <DeviceCapability Name="bluetooth"/>
   </Capabilities>
 </Package>

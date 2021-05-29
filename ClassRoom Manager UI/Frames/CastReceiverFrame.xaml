@@ -27,12 +27,12 @@
             <TextBlock Text="Miracast" Style="{StaticResource SubtitleTextBlockStyle}"/>
             <UserControl Height="15" />
 
-            <ToggleSwitch Header="Gerät für andere Geräte sichtbar" x:Name="MiraCastEnabledToggleSwitch" Toggled="MiraCastEnabledToggleSwitch_Toggled" />
+            <ToggleSwitch Header="Verbindungen akzeptieren" x:Name="MiraCastEnabledToggleSwitch" Toggled="MiraCastEnabledToggleSwitch_Toggled" />
             <UserControl Height="15" />
 
             <StackPanel x:Name="MiraCastControlsStackPanel">
                 <TextBlock Text="Verbundene Geräte" Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,5"/>
-                <ListView Height="150" Background="#f7f7f7" x:Name="ConnectionsListView">
+                <ListView MinHeight="30" x:Name="ConnectionsListView">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="miracast:MiracastReceiverConnection">
                             <Grid>

@@ -70,4 +70,8 @@ Public NotInheritable Class MainPage
     Private Sub AccountNavigationViewItem_Tapped(sender As Object, e As TappedRoutedEventArgs)
         Launcher.LaunchUriAsync(New Uri("ms-settings:yourinfo"))
     End Sub
+
+    Private Sub MaximizeButton_Click(sender As Object, e As RoutedEventArgs)
+        Dim x As Boolean = VisualStateManager.GoToState(MaximizeButton, "WindowStateMaximized", False)
+    End Sub
 End Class

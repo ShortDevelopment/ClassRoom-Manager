@@ -8,28 +8,59 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+
+        <Style x:Key="FullScrenToggleButton" TargetType="AppBarButton">
+            <Setter Property="Icon">
+                <Setter.Value>
+                    <FontIcon Glyph="&#xE740;" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Label" Value="Vollbild" />
+        </Style>
+        <Style x:Key="BackToWindowScreenToggleButton" TargetType="AppBarButton">
+            <Setter Property="Icon">
+                <Setter.Value>
+                    <FontIcon Glyph="&#xE73F;" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Label" Value="Fenster" />
+        </Style>
+
+        <Style x:Key="MuteToggleButton" TargetType="AppBarButton">
+            <Setter Property="Icon">
+                <Setter.Value>
+                    <FontIcon Glyph="&#xE767;" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Label" Value="Ton" />
+        </Style>
+        <Style x:Key="UnmuteToggleButton" TargetType="AppBarButton">
+            <Setter Property="Icon">
+                <Setter.Value>
+                    <FontIcon Glyph="&#xE74F;" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Label" Value="Lautlos" />
+        </Style>
+
+    </Page.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <CommandBar IsOpen="False" DefaultLabelPosition="Right" Grid.Row="0">
-            <AppBarElementContainer VerticalContentAlignment="Center">
-                <TextBlock Text="DeviceName" />
-            </AppBarElementContainer>
+            <CommandBar.Content>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{x:Bind Connection.Transmitter.Name}" Margin="12,10" />
+                </StackPanel>
+            </CommandBar.Content>
+            <AppBarButton x:Name="VolumeToggleAppBarButton" Style="{StaticResource MuteToggleButton}" Click="VolumeToggleAppBarButton_Click" />
+            <AppBarButton x:Name="FullScreenToggleAppBarButton" Style="{StaticResource FullScrenToggleButton}" Click="FullScreenToggleAppBarButton_Click" />
             <AppBarSeparator />
-            <AppBarButton Label="Lautstärke">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE767;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <AppBarButton Label="Vollbild">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE740;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <AppBarSeparator />
-            <AppBarButton Label="Trennen">
+            <AppBarButton Label="Trennen" Click="DisconnectAppBarButton_Click">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xEA14;" />
                 </AppBarButton.Icon>

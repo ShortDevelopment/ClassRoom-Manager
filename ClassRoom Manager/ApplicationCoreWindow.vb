@@ -101,6 +101,24 @@ Public Class ApplicationCoreWindow
 
     Public Property HasSystemTitleBar As Boolean = True Implements IApplicationCoreWindow.HasSystemTitleBar
 
+    Dim _IsFullScreen As Boolean = False
+    Public Property IsFullScreen As Boolean Implements IApplicationCoreWindow.IsFullScreen
+        Get
+            Return _IsFullScreen
+        End Get
+        Set(value As Boolean)
+            If value Then
+                WindowState = FormWindowState.Normal
+                FormBorderStyle = FormBorderStyle.None
+                WindowState = FormWindowState.Maximized
+            Else
+                WindowState = FormWindowState.Normal
+                FormBorderStyle = FormBorderStyle.Sizable
+            End If
+            _IsFullScreen = value
+        End Set
+    End Property
+
 #End Region
 
 #End Region
@@ -131,7 +149,7 @@ Public Class ApplicationCoreWindow
     ''' https//github.com/microsoft/terminal/blob/ff8fdbd2431f1cfd8211833815be481dfdec4420/src/cascadia/WindowsTerminal/NonClientIslandWindow.cpp#L405
     ''' </summary>
     Public Sub WmNCCalcSize(m)
-        If Not HasSystemTitleBar AndAlso Not m.WParam = IntPtr.Zero Then
+        If Not HasSystemTitleBar AndAlso Not IsFullScreen AndAlso Not m.WParam = IntPtr.Zero Then
             Dim topOld = Marshal.PtrToStructure(Of NCCALCSIZE_PARAMS)(m.LParam).rgrc0.top
 
             ' Run default processing

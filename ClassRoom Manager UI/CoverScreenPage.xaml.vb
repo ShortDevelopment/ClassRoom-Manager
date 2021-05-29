@@ -5,7 +5,7 @@
 Public NotInheritable Class CoverScreenPage
     Inherits Page
 
-    Public ReadOnly CurrentWindow As Interop.Application.IApplicationCoreWindow
+    Public ReadOnly Property CurrentWindow As Interop.Application.IApplicationCoreWindow
 
     Public Sub New(window As Interop.Application.IApplicationCoreWindow)
 

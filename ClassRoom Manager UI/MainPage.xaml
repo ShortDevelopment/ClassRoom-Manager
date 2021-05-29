@@ -195,7 +195,7 @@
                 AutomationProperties.Name="Maximize"
                 AutomationProperties.AutomationId="_MaximizeButton"
                 Grid.Column="1"
-                Content="M 0 0 H 10 V 10 H 0 V 0" />
+                Content="M 0 0 H 10 V 10 H 0 V 0" Click="MaximizeButton_Click" />
 
             <Button x:Name="CloseButton"
                 Style="{StaticResource WindowCaptionButton}"

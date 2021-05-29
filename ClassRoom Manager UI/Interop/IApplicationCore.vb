@@ -6,8 +6,6 @@
     End Interface
 
     Public Interface IApplicationCoreWindow
-        Inherits IDisposable
-
         Sub Activate()
         Sub Show()
         Sub Hide()
@@ -16,6 +14,7 @@
         Property Title As String
         Property WindowState As CoreWindowState
         Property HasSystemTitleBar As Boolean
+        Property IsFullScreen As Boolean
 
         Property Content As UIElement
 
