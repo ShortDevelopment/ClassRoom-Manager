@@ -17,6 +17,7 @@
                 <StackPanel Orientation="Horizontal">
 
                     <controls:ToolPresenter Glyph="&#xE9A9;" Title="Abdecken" Description="Bildschirmbereich abdecken" Click="CoverToolPresenter_Click" />
+                    <controls:ToolPresenter Glyph="&#xEDC6;" Title="Tafel" Description="Virtuelle Tafel" Click="ChalkBoardToolPresenter_Click" />
 
                 </StackPanel>
             </ScrollViewer>

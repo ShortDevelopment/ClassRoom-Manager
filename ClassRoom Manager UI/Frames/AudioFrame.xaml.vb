@@ -1,4 +1,5 @@
 ﻿
+Imports ClassRoom_Manager.UI.Controls
 Imports ClassRoom_Manager.UI.Interop
 Imports Windows.Devices.Enumeration
 Imports Windows.Media.Audio
@@ -26,31 +27,30 @@ Namespace Frames
             AddHandler watcher.Added, Async Sub(sender As DeviceWatcher, info As DeviceInformation)
                                           Await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, Sub()
                                                                                                                      A2DPAudioDevices.Add(info)
+                                                                                                                     UpdateUIBySelectedItem()
                                                                                                                  End Sub)
                                       End Sub
             AddHandler watcher.Removed, Async Sub(sender As DeviceWatcher, args As DeviceInformationUpdate)
                                             Await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, Sub()
-                                                                                                                       A2DPAudioDevices.Remove(A2DPAudioDevices.Where(Function(x) x.Id = args.Id).FirstOrDefault())
+                                                                                                                       A2DPAudioDevices.Remove(A2DPAudioDevices.FirstOrDefault(Function(x) x.Id = args.Id))
+                                                                                                                       RemoveDeviceById(args.Id)
+                                                                                                                       UpdateUIBySelectedItem()
                                                                                                                    End Sub)
                                         End Sub
             watcher.Start()
         End Sub
 
-        Private Sub ConnectAppBarButton_Click(sender As Object, e As RoutedEventArgs)
-
-        End Sub
-
-        Private Sub DisconnectAppBarButton_Click(sender As Object, e As RoutedEventArgs)
-
-        End Sub
-
         Dim audioPlaybackConnections As New Dictionary(Of String, AudioPlaybackConnection)
 
         Private Async Sub DeviceListView_SelectionChanged(sender As Object, e As SelectionChangedEventArgs)
+            UpdateUIBySelectedItem()
+        End Sub
+
+        Private Async Sub ConnectAppBarButton_Click(sender As Object, e As RoutedEventArgs)
             If DeviceListView.SelectedItem IsNot Nothing Then
 
                 Dim selectedDeviceId = DirectCast(DeviceListView.SelectedItem, DeviceInformation).Id
-                If audioPlaybackConnections.ContainsKey(selectedDeviceId) Then
+                If Not audioPlaybackConnections.ContainsKey(selectedDeviceId) Then
 
                     ' Create the audio playback connection from the selected device id And add it to the dictionary. 
                     ' This will result in allowing incoming connections from the remote device. 
@@ -58,14 +58,68 @@ Namespace Frames
 
                     If playbackConnection IsNot Nothing Then
                         ' The device has an available audio playback connection. 
-                        AddHandler playbackConnection.StateChanged, Sub()
+                        AddHandler playbackConnection.StateChanged, Async Sub(connection As AudioPlaybackConnection, args As Object)
+                                                                        Await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, Sub()
 
+                                                                                                                                                   If connection.State = AudioPlaybackConnectionState.Closed Then
+                                                                                                                                                       A2DPAudioDevices.Remove(A2DPAudioDevices.FirstOrDefault(Function(x) x.Id = connection.DeviceId))
+                                                                                                                                                       RemoveDeviceById(connection.DeviceId)
+                                                                                                                                                       UpdateUIBySelectedItem()
+                                                                                                                                                   End If
+
+                                                                                                                                               End Sub)
                                                                     End Sub
-                        audioPlaybackConnections.Add(selectedDeviceId, playbackConnection)
+
                         Await playbackConnection.StartAsync()
-                        ConnectAppBarButton.IsEnabled = True
+                        Dim result = Await playbackConnection.OpenAsync()
+
+                        If Not result.Status = AudioPlaybackConnectionOpenResultStatus.Success Then
+                            Me.ShowErrorDialog(result.Status.ToString(), "")
+                        Else
+                            audioPlaybackConnections.Add(selectedDeviceId, playbackConnection)
+
+                            UpdateUIBySelectedItem()
+                        End If
                     End If
                 End If
+            End If
+        End Sub
+
+        Private Sub DisconnectAppBarButton_Click(sender As Object, e As RoutedEventArgs)
+            If DeviceListView.SelectedItem IsNot Nothing Then
+
+                Dim selectedDeviceId = DirectCast(DeviceListView.SelectedItem, DeviceInformation).Id
+                RemoveDeviceById(selectedDeviceId)
+
+                UpdateUIBySelectedItem()
+            End If
+        End Sub
+
+        Private Sub RemoveDeviceById(selectedDeviceId As String)
+            If audioPlaybackConnections.ContainsKey(selectedDeviceId) Then
+
+                Dim connectionToRemove = audioPlaybackConnections(selectedDeviceId)
+                connectionToRemove.Dispose()
+                audioPlaybackConnections.Remove(selectedDeviceId)
+
+            End If
+        End Sub
+
+        Private Sub UpdateUIBySelectedItem()
+            If DeviceListView.SelectedItem IsNot Nothing Then
+
+                Dim selectedDeviceId = DirectCast(DeviceListView.SelectedItem, DeviceInformation).Id
+                If Not audioPlaybackConnections.ContainsKey(selectedDeviceId) Then
+                    ConnectAppBarButton.IsEnabled = True
+                    DisconnectAppBarButton.IsEnabled = False
+                Else
+                    ConnectAppBarButton.IsEnabled = False
+                    DisconnectAppBarButton.IsEnabled = True
+                End If
+
+            Else
+                ConnectAppBarButton.IsEnabled = False
+                DisconnectAppBarButton.IsEnabled = False
             End If
         End Sub
 

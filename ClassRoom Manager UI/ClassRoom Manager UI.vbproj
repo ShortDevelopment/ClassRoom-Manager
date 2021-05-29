@@ -174,6 +174,9 @@
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ChalkBoardPage.xaml.vb">
+      <DependentUpon>ChalkBoardPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MiraCastConnectionPage.xaml.vb">
       <DependentUpon>MiraCastConnectionPage.xaml</DependentUpon>
     </Compile>
@@ -241,6 +244,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ChalkBoardPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

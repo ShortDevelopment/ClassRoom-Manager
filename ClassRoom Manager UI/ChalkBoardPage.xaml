@@ -1,0 +1,27 @@
+﻿<Page
+    x:Class="ClassRoom_Manager.UI.ChalkBoardPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ClassRoom_Manager.UI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <InkToolbar x:Name="MainInkToolBar" TargetInkCanvas="{x:Bind MainInkCanvas}" Grid.Row="0">
+            <InkToolbarCustomPenButton>
+                <FontIcon Glyph="&#xEDFB;" />
+                <InkToolbarCustomPenButton.ConfigurationContent>
+                    <InkToolbarPenConfigurationControl />
+                </InkToolbarCustomPenButton.ConfigurationContent>
+            </InkToolbarCustomPenButton>
+        </InkToolbar>
+        <InkCanvas x:Name="MainInkCanvas" Grid.Row="1" />
+    </Grid>
+
+</Page>
