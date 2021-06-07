@@ -6,14 +6,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="Transparent">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <InkToolbar x:Name="MainInkToolBar" TargetInkCanvas="{x:Bind MainInkCanvas}" Grid.Row="0">
+        <InkToolbar x:Name="MainInkToolBar" TargetInkCanvas="{x:Bind MainInkCanvas}" Grid.Row="0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         </InkToolbar>
         <InkCanvas x:Name="MainInkCanvas" Grid.Row="1" />
     </Grid>
