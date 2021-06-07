@@ -177,7 +177,7 @@
         </NavigationView>
 
         <!-- TitleBar -->
-        <Grid x:Name="TitleBarMinMaxCloseContainer" HorizontalAlignment="Right" VerticalAlignment="Top">
+        <Grid x:Name="TitleBarMinMaxCloseContainer" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
