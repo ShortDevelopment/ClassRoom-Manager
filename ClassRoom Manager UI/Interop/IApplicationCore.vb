@@ -15,6 +15,8 @@
         Property WindowState As CoreWindowState
         Property HasSystemTitleBar As Boolean
         Property IsFullScreen As Boolean
+        Property IsTopMost As Boolean
+        Property IsCloseButtonEnabled As Boolean
 
         Property Content As UIElement
 

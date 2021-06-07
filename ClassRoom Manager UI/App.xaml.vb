@@ -11,6 +11,11 @@ Public NotInheritable Class App
         Initialize()
         Me.ApplicationManager = applicationManager
 
+        'Dim data = Resources.ToArray()
+        'Dim x = Resources("ApplicationPageBackgroundThemeBrush")
+
+        'Resources("ApplicationPageBackgroundThemeBrush") = Windows.UI.Colors.Red
+
     End Sub
 
     Public Sub UnhandledExeption(sender As System.Object, e As Windows.UI.Xaml.UnhandledExceptionEventArgs) Handles Me.UnhandledException

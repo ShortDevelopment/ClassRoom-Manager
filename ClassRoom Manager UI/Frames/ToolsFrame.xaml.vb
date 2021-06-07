@@ -13,6 +13,7 @@
             Dim window = CType(App.Current, App).ApplicationManager.CreateNewWindow()
             window.Content = New CoverScreenPage(window)
             window.HasSystemTitleBar = False
+            window.IsTopMost = True
             window.Show()
         End Sub
 

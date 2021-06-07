@@ -11,6 +11,15 @@
                 <!-- Other app resources here -->
                 <ResourceDictionary>
                     <SolidColorBrush Color="#AA000000" x:Key="SemitransparentBrush"/>
+
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Default">
+                            <!--<SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="Blue"></SolidColorBrush>-->
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark">
+                            <!--<SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="Yellow"></SolidColorBrush>-->
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
             </controls:XamlControlsResources.MergedDictionaries>
         </controls:XamlControlsResources>
