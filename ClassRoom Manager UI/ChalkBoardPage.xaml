@@ -14,12 +14,6 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <InkToolbar x:Name="MainInkToolBar" TargetInkCanvas="{x:Bind MainInkCanvas}" Grid.Row="0">
-            <InkToolbarCustomPenButton>
-                <FontIcon Glyph="&#xEDFB;" />
-                <InkToolbarCustomPenButton.ConfigurationContent>
-                    <InkToolbarPenConfigurationControl />
-                </InkToolbarCustomPenButton.ConfigurationContent>
-            </InkToolbarCustomPenButton>
         </InkToolbar>
         <InkCanvas x:Name="MainInkCanvas" Grid.Row="1" />
     </Grid>
