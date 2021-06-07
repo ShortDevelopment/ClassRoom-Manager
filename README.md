@@ -1,2 +1,2 @@
 # ClassRoom-Manager
-Einfaches Remote-Desktop-Programm für Lehrer zur Nutzung im Unterricht mit BYOD Geräten (Schüler).
+Einfaches Programm für Lehrer zur Unterstützung im Unterricht (mit BYOD Geräten).
