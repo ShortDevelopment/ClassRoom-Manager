@@ -1,40 +1,26 @@
-﻿Imports System.Collections.ObjectModel
-Imports ClassRoom_Manager.UI.Interop.Application
+﻿Imports Windows10Design
 
 Public Class Program
+    Inherits Win32Application
 
     <STAThread>
     Public Shared Sub Main(args As String())
 
-        Dim app As New ApplicationManager(args)
+        Dim app As New Program(args)
+        Dim window As New Form1()
+        app.Run(New Form1())
 
     End Sub
 
-    Public Class ApplicationManager
-        Implements IApplicationCore
+    Public Sub New(args As String())
+        MyBase.New(args)
+    End Sub
 
-        Public ReadOnly Property CommandLineArgs As ReadOnlyCollection(Of String)
+    Public Overrides Function CreateUWPApplication() As IDisposable
+        Return New UI.App(Me)
+    End Function
 
-        Public Sub New(args As String())
-            CommandLineArgs = New ReadOnlyCollection(Of String)(args)
-            Inititalize()
-        End Sub
-
-        Protected Sub Inititalize()
-
-            AddHandler AppDomain.CurrentDomain.UnhandledException, Sub(sender As Object, e As UnhandledExceptionEventArgs)
-                                                                       Dim ex As Exception = e.ExceptionObject
-                                                                       If Debugger.IsAttached Then Debugger.Break()
-                                                                   End Sub
-
-            Using New UI.App(Me)
-                Application.Run(New Form1())
-            End Using
-        End Sub
-
-        Public Function CreateNewWindow() As IApplicationCoreWindow Implements IApplicationCore.CreateNewWindow
-            Return New ApplicationCoreWindow()
-        End Function
-    End Class
-
+    Public Overrides Function GetXamlContent() As Object
+        Return New UI.MainPage()
+    End Function
 End Class

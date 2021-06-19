@@ -1,5 +1,9 @@
-﻿Imports System.Runtime.InteropServices
-Imports ClassRoom_Manager.Api
+﻿#If NETCOREAPP3_1 Then
+
+Imports System.Drawing
+Imports System.Runtime.InteropServices
+Imports System.Windows.Forms
+Imports Windows10Design.Api
 
 Namespace Api
 
@@ -186,3 +190,5 @@ Public Class InputCaptureWindow
         Public Shared Function DeleteObject(ByVal hObject As IntPtr) As Bool : End Function
     End Class
 End Class
+
+#End If

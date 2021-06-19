@@ -1,13 +1,11 @@
 ﻿
-''' <summary>
-''' Eine leere Seite, die eigenständig verwendet oder zu der innerhalb eines Rahmens navigiert werden kann.
-''' </summary>
+
 Public NotInheritable Class CoverScreenPage
     Inherits Page
 
-    Public ReadOnly Property CurrentWindow As Interop.Application.IApplicationCoreWindow
+    Public ReadOnly Property CurrentWindow As Windows10Design.IApplicationCoreWindow
 
-    Public Sub New(window As Interop.Application.IApplicationCoreWindow)
+    Public Sub New(window As Windows10Design.IApplicationCoreWindow)
 
         InitializeComponent()
         Me.CurrentWindow = window

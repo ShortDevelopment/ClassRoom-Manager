@@ -1,33 +1,57 @@
-﻿Imports System.ComponentModel
+﻿#If NETCOREAPP3_1 Then
+
+Imports System.ComponentModel
 Imports System.Runtime.InteropServices
 Imports System.Threading
-Imports ClassRoom_Manager.UI.Interop.Application
+Imports FormsApplication = System.Windows.Forms.Application
+Imports System.Windows.Forms
 Imports Microsoft.Toolkit.Forms.UI.XamlHost
-Imports Windows.UI.Xaml
-Imports Win32Application = System.Windows.Forms.Application
+Imports System.Drawing
 
 Public Class ApplicationCoreWindow
     Inherits Form
     Implements IApplicationCoreWindow
 
     Public Sub New()
-        InitializeComponent()
-        Title = Win32Application.ProductName
+        Title = FormsApplication.ProductName
     End Sub
 
-    Public Sub New(type As Type)
-        Me.New()
-        Content = Activator.CreateInstance(type)
+#Region "SplashScreen"
+    Public Property IsSplashScreenVisible As Boolean
+    Public ReadOnly Property SplashScreenColor As Color = Color.LightGray
+
+    Public Sub ShowSplashScreen()
+        IsSplashScreenVisible = True
+        Me.Refresh()
     End Sub
+
+    Protected Overrides Sub OnPaint(ByVal e As PaintEventArgs)
+        If IsSplashScreenVisible Then
+
+            Using g As Graphics = CreateGraphics()
+                g.Clear(SplashScreenColor)
+                Const IconWidth As Integer = 100
+                g.DrawIcon(Me.Icon, New Rectangle(Me.Width / 2 - IconWidth / 2, Me.Height / 2 - IconWidth / 2, IconWidth, IconWidth))
+            End Using
+        Else
+            MyBase.OnPaint(e)
+        End If
+    End Sub
+#End Region
 
 #Region "Hosting"
 
     Public ReadOnly Property XamlIsland As WindowsXamlHost
 
-    Protected Sub InitializeComponent()
-        _XamlIsland = New WindowsXamlHost()
-        XamlIsland.Dock = DockStyle.Fill
-        Me.Controls.Add(XamlIsland)
+    Public Sub LoadXamlContent()
+        IsSplashScreenVisible = False
+        Me.Refresh()
+
+        If Not DesignMode Then
+            _XamlIsland = New WindowsXamlHost()
+            XamlIsland.Dock = DockStyle.Fill
+            Me.Controls.Add(XamlIsland)
+        End If
     End Sub
 
     Protected Overrides Sub OnClosing(e As CancelEventArgs)
@@ -50,11 +74,11 @@ Public Class ApplicationCoreWindow
 
 #Region "Xaml Islands"
 
-    Public Property Content As UIElement Implements IApplicationCoreWindow.Content
+    Public Property Content As Object Implements IApplicationCoreWindow.Content
         Get
             Return XamlIsland.Child
         End Get
-        Set(value As UIElement)
+        Set(value As Object)
             XamlIsland.Child = value
         End Set
     End Property
@@ -125,7 +149,7 @@ Public Class ApplicationCoreWindow
                 Me.Controls.Add(InputCaptureWindow)
                 InputCaptureWindow.BringToFront()
             End If
-            Win32Application.DoEvents()
+            FormsApplication.DoEvents()
         End Set
     End Property
 
@@ -319,7 +343,7 @@ Public Class ApplicationCoreWindow
     Protected Overrides ReadOnly Property CreateParams As CreateParams
         Get
             Dim params = MyBase.CreateParams
-            params.ExStyle = params.ExStyle Or WS_EX_NOREDIRECTIONBITMAP
+            ' params.ExStyle = params.ExStyle Or WS_EX_NOREDIRECTIONBITMAP // Disabled for SplashScreen drawing
             Return params
         End Get
     End Property
@@ -343,3 +367,5 @@ Public Class ApplicationCoreWindow
 #End Region
 
 End Class
+
+#End If

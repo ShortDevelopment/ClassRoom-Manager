@@ -1,17 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<AssemblyName>Windows10Design</AssemblyName>
-		<RootNamespace>Windows10Design</RootNamespace>
 		<UseWindowsForms Condition="'$(TargetFramework)' == 'netcoreapp3.1'">true</UseWindowsForms>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.1;uap10.0;netcoreapp3.1</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;uap10.0;netcoreapp3.1</TargetFrameworks>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
-		
+
 		<Compile Update="win32\ApplicationCoreWindow.vb">
 			<SubType>Form</SubType>
 		</Compile>

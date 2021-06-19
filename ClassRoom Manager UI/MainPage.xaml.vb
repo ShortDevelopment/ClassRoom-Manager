@@ -1,9 +1,5 @@
-﻿' Die Elementvorlage "Leere Seite" wird unter https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x407 dokumentiert.
-
+﻿
 Imports Windows.System
-''' <summary>
-''' Eine leere Seite, die eigenständig verwendet oder zu der innerhalb eines Rahmens navigiert werden kann.
-''' </summary>
 Public NotInheritable Class MainPage
     Inherits Page
 
@@ -14,38 +10,6 @@ Public NotInheritable Class MainPage
         NavigationCacheMode = NavigationCacheMode.Required
 
         Load()
-
-#Region "Test"
-
-        'Dim visual = Hosting.ElementCompositionPreview.GetElementVisual(Me)
-
-        'Dim blurEffect = New GaussianBlurEffect() With
-        '{
-        '    .Name = "Blur",
-        '    .BlurAmount = 1.0F,
-        '    .BorderMode = EffectBorderMode.Hard,
-        '    .Optimization = EffectOptimization.Balanced
-        '}
-
-
-
-        'blurEffect.Source = New Windows.UI.Composition.CompositionEffectSourceParameter("source")
-
-        'Dim blurEffectFactory = visual.Compositor.CreateEffectFactory(blurEffect)
-        'Dim blurBrush = blurEffectFactory.CreateBrush()
-
-        '' Create a BackdropBrush And bind it to the EffectSourceParameter “source” 
-        'Dim backdropBrush = visual.Compositor.CreateBackdropBrush()
-        'blurBrush.SetSourceParameter("source", backdropBrush)
-
-
-        'Dim Brush = visual.Compositor.CreateHostBackdropBrush()
-        'Dim sprite = visual.Compositor.CreateSpriteVisual()
-        'sprite.Brush = Brush
-        'sprite.Size = New System.Numerics.Vector2(1000, 1000)
-        'Hosting.ElementCompositionPreview.SetElementChildVisual(Me, sprite)
-
-#End Region
 
     End Sub
 

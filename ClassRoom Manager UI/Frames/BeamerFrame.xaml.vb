@@ -1,6 +1,5 @@
-﻿
-Imports ClassRoom_Manager.UI.Interop
-Imports Windows.System
+﻿Imports Windows.System
+Imports Windows10Design.Interop
 
 Namespace Frames
 

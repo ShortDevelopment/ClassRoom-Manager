@@ -6,12 +6,12 @@ Imports Windows.Media.Playback
 Public NotInheritable Class MiraCastConnectionPage
     Inherits Page
 
-    Public ReadOnly Property CurrentWindow As Interop.Application.IApplicationCoreWindow
+    Public ReadOnly Property CurrentWindow As Windows10Design.IApplicationCoreWindow
 
     Public ReadOnly Property Connection As MiracastReceiverConnection
     Public ReadOnly Property MediaSource As MediaSource
 
-    Public Sub New(window As Interop.Application.IApplicationCoreWindow, connection As MiracastReceiverConnection, mediaSource As MediaSource)
+    Public Sub New(window As Windows10Design.IApplicationCoreWindow, connection As MiracastReceiverConnection, mediaSource As MediaSource)
 
         Me.CurrentWindow = window
         Me.Connection = connection

@@ -1,5 +1,5 @@
-﻿Imports ClassRoom_Manager.UI.Interop.Application
-Imports Microsoft.Toolkit.Win32.UI.XamlHost
+﻿Imports Microsoft.Toolkit.Win32.UI.XamlHost
+Imports Windows10Design
 
 Public NotInheritable Class App
     Inherits XamlApplication
@@ -10,11 +10,6 @@ Public NotInheritable Class App
 
         Initialize()
         Me.ApplicationManager = applicationManager
-
-        'Dim data = Resources.ToArray()
-        'Dim x = Resources("ApplicationPageBackgroundThemeBrush")
-
-        'Resources("ApplicationPageBackgroundThemeBrush") = Windows.UI.Colors.Red
 
     End Sub
 

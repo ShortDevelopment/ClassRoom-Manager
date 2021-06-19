@@ -169,8 +169,6 @@
     <Compile Include="Frames\BeamerFrame.xaml.vb">
       <DependentUpon>BeamerFrame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interop\IApplicationCore.vb" />
-    <Compile Include="Interop\Wow64Interop.vb" />
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -296,6 +294,11 @@
     <PackageReference Include="Microsoft.UI.Xaml">
       <Version>2.6.0-prerelease.210430001</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Windows10Design">
+      <HintPath>..\Windows10Design\bin\Debug\netstandard2.0\Windows10Design.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
