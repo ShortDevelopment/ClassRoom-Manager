@@ -66,6 +66,6 @@
                 </AppBarButton.Icon>
             </AppBarButton>
         </CommandBar>
-        <MediaPlayerElement BorderBrush="#eeee" BorderThickness="2" x:Name="MediaPlayerControl" HorizontalAlignment="Stretch" AreTransportControlsEnabled="False" Grid.Row="1" />
+        <MediaPlayerElement BorderBrush="#eeee" BorderThickness="2" x:Name="MediaPlayerControl" HorizontalAlignment="Stretch" AreTransportControlsEnabled="True" Grid.Row="1" />
     </Grid>
 </Page>

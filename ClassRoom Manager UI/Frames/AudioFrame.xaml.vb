@@ -1,9 +1,9 @@
 ﻿
 Imports ClassRoom_Manager.UI.Controls
+Imports ClassRoom_Manager.UI.Interop
 Imports Windows.Devices.Enumeration
 Imports Windows.Media.Audio
 Imports Windows.System
-Imports Windows10Design.Interop
 
 Namespace Frames
 

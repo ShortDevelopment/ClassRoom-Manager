@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ClassRoom_Manager.UI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -29,7 +29,7 @@
 
         <Style x:Key="WindowCaptionButton" TargetType="Button">
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Background" Value="{ThemeResource WindowCaptionBackground}" />
+            <!--<Setter Property="Background" Value="{ThemeResource WindowCaptionBackground}" />-->
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="Width" Value="47" />
@@ -117,52 +117,52 @@
     <Grid>
 
         <!-- App Layout -->
-        <NavigationView
+        <controls:NavigationView
             x:Name="MainNavigationView"
             IsBackButtonVisible="Collapsed"
             PaneTitle="ClassRoom Manager"
             SelectionChanged="MainNavigationView_SelectionChanged">
-            <NavigationView.MenuItems>
-                <NavigationViewItem Content="Start" Tag="home" IsSelected="True">
-                    <NavigationViewItem.Icon>
+            <controls:NavigationView.MenuItems>
+                <controls:NavigationViewItem Content="Start" Tag="home" IsSelected="True">
+                    <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE80F;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItemSeparator />
-                <NavigationViewItem Content="Beamer" Tag="beamer">
-                    <NavigationViewItem.Icon>
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+                <controls:NavigationViewItemSeparator />
+                <controls:NavigationViewItem Content="Beamer" Tag="beamer">
+                    <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE95D;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItem Content="Audio" Tag="audio">
-                    <NavigationViewItem.Icon>
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+                <controls:NavigationViewItem Content="Audio" Tag="audio">
+                    <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8D6;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItemSeparator />
-                <NavigationViewItem Content="Miracast" Tag="cast_receiver">
-                    <NavigationViewItem.Icon>
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+                <controls:NavigationViewItemSeparator />
+                <controls:NavigationViewItem Content="Miracast" Tag="cast_receiver">
+                    <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEC15;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItem Content="Hotspot" Tag="hotspot">
-                    <NavigationViewItem.Icon>
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+                <controls:NavigationViewItem Content="Hotspot" Tag="hotspot">
+                    <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE88A;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItemSeparator />
-                <NavigationViewItem Content="Tools" Tag="tools">
-                    <NavigationViewItem.Icon>
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+                <controls:NavigationViewItemSeparator />
+                <controls:NavigationViewItem Content="Tools" Tag="tools">
+                    <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE82F;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-            </NavigationView.MenuItems>
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+            </controls:NavigationView.MenuItems>
 
             <Frame x:Name="MainContentFrame" />
 
-            <NavigationView.PaneFooter>
+            <controls:NavigationView.PaneFooter>
                 <StackPanel>
-                    <NavigationViewItem SelectsOnInvoked="False" Tapped="AccountNavigationViewItem_Tapped">
+                    <controls:NavigationViewItem SelectsOnInvoked="False" Tapped="AccountNavigationViewItem_Tapped">
                         <Grid Margin="-4,0,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
@@ -171,10 +171,10 @@
                             <PersonPicture DisplayName="Max Mustermann" Width="20" Height="20" Grid.Column="0" x:Name="PersonPicture" />
                             <TextBlock Text="Max Mustermann" Grid.Column="1" VerticalAlignment="Center" Margin="15,0,0,0" x:Name="ProfileNameTextBlock" />
                         </Grid>
-                    </NavigationViewItem>
+                    </controls:NavigationViewItem>
                 </StackPanel>
-            </NavigationView.PaneFooter>
-        </NavigationView>
+            </controls:NavigationView.PaneFooter>
+        </controls:NavigationView>
 
         <!-- TitleBar -->
         <Grid x:Name="TitleBarMinMaxCloseContainer" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed">

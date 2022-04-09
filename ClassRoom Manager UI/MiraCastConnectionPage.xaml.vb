@@ -2,18 +2,15 @@
 Imports Windows.Media.Core
 Imports Windows.Media.Miracast
 Imports Windows.Media.Playback
+Imports Windows.UI.Core
 
 Public NotInheritable Class MiraCastConnectionPage
     Inherits Page
 
-    Public ReadOnly Property CurrentWindow As Windows10Design.IApplicationCoreWindow
-
     Public ReadOnly Property Connection As MiracastReceiverConnection
     Public ReadOnly Property MediaSource As MediaSource
 
-    Public Sub New(window As Windows10Design.IApplicationCoreWindow, connection As MiracastReceiverConnection, mediaSource As MediaSource)
-
-        Me.CurrentWindow = window
+    Public Sub New(connection As MiracastReceiverConnection, mediaSource As MediaSource)
         Me.Connection = connection
         Me.MediaSource = mediaSource
 
@@ -38,19 +35,19 @@ Public NotInheritable Class MiraCastConnectionPage
     End Sub
 
     Private Sub FullScreenToggleAppBarButton_Click(sender As Object, e As RoutedEventArgs)
-        CurrentWindow.IsFullScreen = Not CurrentWindow.IsFullScreen
-        If CurrentWindow.IsFullScreen Then
-            FullScreenToggleAppBarButton.Style = Me.Resources("BackToWindowScreenToggleButton")
-        Else
-            FullScreenToggleAppBarButton.Style = Me.Resources("FullScrenToggleButton")
-        End If
+        'CurrentWindow.IsFullScreen = Not CurrentWindow.IsFullScreen
+        'If CurrentWindow.IsFullScreen Then
+        '    FullScreenToggleAppBarButton.Style = Me.Resources("BackToWindowScreenToggleButton")
+        'Else
+        '    FullScreenToggleAppBarButton.Style = Me.Resources("FullScrenToggleButton")
+        'End If
     End Sub
 
     Private Sub DisconnectAppBarButton_Click(sender As Object, e As RoutedEventArgs)
         Connection.Disconnect(MiracastReceiverDisconnectReason.DisconnectedByUser)
         Connection.Dispose()
 
-        CurrentWindow.Close()
+        CoreWindow.GetForCurrentThread().Close()
     End Sub
 
 End Class

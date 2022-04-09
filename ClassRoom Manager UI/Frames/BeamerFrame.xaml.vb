@@ -1,5 +1,5 @@
-﻿Imports Windows.System
-Imports Windows10Design.Interop
+﻿Imports ClassRoom_Manager.UI.Interop
+Imports Windows.System
 
 Namespace Frames
 

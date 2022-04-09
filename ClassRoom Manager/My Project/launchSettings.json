@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ClassRoom Manager": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

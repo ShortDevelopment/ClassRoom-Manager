@@ -36,9 +36,9 @@ Public NotInheritable Class MainPage
         MainNavigationView.SelectedItem = MainNavigationView.MenuItems(0)
     End Sub
 
-    Private Sub MainNavigationView_SelectionChanged(sender As NavigationView, args As NavigationViewSelectionChangedEventArgs)
+    Private Sub MainNavigationView_SelectionChanged(sender As Microsoft.UI.Xaml.Controls.NavigationView, args As Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs)
 
-        Select Case DirectCast(sender.SelectedItem, NavigationViewItem).Tag?.ToString().ToLower()
+        Select Case DirectCast(sender.SelectedItem, Microsoft.UI.Xaml.Controls.NavigationViewItem).Tag?.ToString().ToLower()
             Case "beamer"
                 MainContentFrame.Navigate(GetType(Frames.BeamerFrame))
 

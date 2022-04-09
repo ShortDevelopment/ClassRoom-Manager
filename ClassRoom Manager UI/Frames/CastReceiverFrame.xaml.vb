@@ -1,4 +1,5 @@
 ﻿Imports ClassRoom_Manager.UI.Controls
+Imports FullTrustUWP.Core.Xaml
 Imports Windows.Media.Miracast
 Imports Windows.System
 
@@ -55,17 +56,19 @@ Namespace Frames
 
             If MiraCastEnabledToggleSwitch.IsOn Then
                 _CurrentSession = Server.CreateSession(Nothing)
-                CurrentSession.AllowConnectionTakeover = False
+                CurrentSession.AllowConnectionTakeover = True
                 CurrentSession.MaxSimultaneousConnections = 10
                 AddHandler CurrentSession.ConnectionCreated, Sub(session As MiracastReceiverSession, args As MiracastReceiverConnectionCreatedEventArgs)
                                                                  Connections.Add(args.Connection)
                                                                  ConnectionPins.Add(args.Pin)
                                                              End Sub
                 AddHandler CurrentSession.MediaSourceCreated, Sub(session As MiracastReceiverSession, args As MiracastReceiverMediaSourceCreatedEventArgs)
-                                                                  Dim window = CType(App.Current, App).ApplicationManager.CreateNewWindow()
-                                                                  window.Content = New MiraCastConnectionPage(window, args.Connection, args.MediaSource)
-                                                                  window.IsCloseButtonEnabled = False
-                                                                  window.Show()
+                                                                  'args.Connection.Resume()
+                                                                  CType(App.Current, App).CreateNewWindow(
+                                                                    New XamlWindowConfig("Mira Cast"),
+                                                                    Function() New MiraCastConnectionPage(args.Connection, args.MediaSource)
+                                                                  )
+                                                                  'window.IsCloseButtonEnabled = False
                                                               End Sub
                 AddHandler CurrentSession.Disconnected, Sub(session As MiracastReceiverSession, args As MiracastReceiverDisconnectedEventArgs)
 

@@ -1,4 +1,6 @@
-﻿Namespace Frames
+﻿Imports FullTrustUWP.Core.Xaml
+
+Namespace Frames
 
     Public NotInheritable Class ToolsFrame
         Inherits Page
@@ -10,18 +12,19 @@
 
         End Sub
         Private Sub CoverToolPresenter_Click(sender As Object, e As RoutedEventArgs)
-            Dim window = CType(App.Current, App).ApplicationManager.CreateNewWindow()
-            window.Content = New CoverScreenPage(window)
-            window.HasSystemTitleBar = False
-            window.IsTopMost = True
-            window.Show()
+            'window.HasSystemTitleBar = False
+            'window.IsTopMost = True
+            CType(App.Current, App).CreateNewWindow(
+                New XamlWindowConfig("Mira Cast"),
+                Function() New CoverScreenPage()
+            )
         End Sub
 
         Private Sub ChalkBoardToolPresenter_Click(sender As Object, e As RoutedEventArgs)
-            Dim window = CType(App.Current, App).ApplicationManager.CreateNewWindow()
-            window.Content = New ChalkBoardPage()
-            window.Title = "Tafel"
-            window.Show()
+            CType(App.Current, App).CreateNewWindow(
+                New XamlWindowConfig("Tafel"),
+                Function() New ChalkBoardPage()
+            )
         End Sub
 
     End Class

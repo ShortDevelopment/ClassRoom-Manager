@@ -1,30 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>ClassRoom_Manager</RootNamespace>
-    <StartupObject>ClassRoom_Manager.Program</StartupObject>
-    <UseWindowsForms>true</UseWindowsForms>
-    <Platforms>AnyCPU;x86;x64</Platforms>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-    <SelfContained>true</SelfContained>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<RootNamespace>ClassRoom_Manager</RootNamespace>
+		<StartupObject>ClassRoom_Manager.Program</StartupObject>
+		<Platforms>x86;x64</Platforms>
+		<!--<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<SelfContained>true</SelfContained>-->
+		<AssetTargetFallback>uap10.0.19041</AssetTargetFallback>
+		<TargetPlatformVersion>10.0.19041</TargetPlatformVersion>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Import Include="System.Data" />
-    <Import Include="System.Drawing" />
-    <Import Include="System.Windows.Forms" />
-  </ItemGroup>
+	<ItemGroup>
+		<!--<PackageReference Include="Microsoft.Toolkit.Forms.UI.XamlHost" Version="6.1.2" />-->
+		<!--<PackageReference Include="Microsoft.Toolkit.Win32.UI.XamlApplication" Version="6.1.2" />-->
+		<PackageReference Include="Microsoft.Toolkit.Win32.UI.SDK" Version="6.1.2" />
+		<PackageReference Include="System.Collections.NonGeneric" Version="4.3.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Toolkit.Forms.UI.XamlHost" Version="6.1.2" />
-    <PackageReference Include="System.Collections.NonGeneric" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\ClassRoom Manager UI\ClassRoom Manager UI.vbproj" />
-    <ProjectReference Include="..\Windows10Design\Windows10Design.vbproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ClassRoom Manager UI\ClassRoom Manager UI.vbproj" />
+	</ItemGroup>
 
 </Project>
