@@ -22,7 +22,22 @@
                                     Offset="0,2"
                                     Opacity="0.2"/>
             </ui:Effects.Shadow>
-            <InkToolbar x:Name="MainInkToolBar" TargetInkCanvas="{x:Bind MainInkCanvas}" />
+            <CommandBar BorderBrush="Transparent" DefaultLabelPosition="Collapsed">
+                <CommandBar.Content>
+                    <InkToolbar x:Name="MainInkToolBar" TargetInkCanvas="{x:Bind MainInkCanvas}" />
+                </CommandBar.Content>
+                <AppBarButton x:Name="UndoButton" Click="UndoButton_Click">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xe7a7;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarSeparator />
+                <AppBarButton IsEnabled="False">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xe74e;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+            </CommandBar>
         </Border>
         <InkCanvas x:Name="MainInkCanvas" Grid.Row="1" />
     </Grid>
