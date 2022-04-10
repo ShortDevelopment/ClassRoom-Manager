@@ -8,8 +8,9 @@
     mc:Ignorable="d"
     Background="#000">
 
-    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-        <Button Click="Button_Click">
+    <Grid>
+        <Grid Background="Transparent" x:Name="DragGrid" PointerEntered="DragGrid_PointerEntered" PointerExited="DragGrid_PointerExited"></Grid>
+        <Button Click="Button_Click" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center">
             <FontIcon Glyph="&#xE74D;" Foreground="#ffff" FontSize="30" />
         </Button>
     </Grid>
